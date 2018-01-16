@@ -49,6 +49,11 @@
         <span>微信支付</span>
         <img src="/images/seleted.png" alt="" style="float:right;" class="check-paytwo" >
     </div>
+    <div class="boxflex1 paystyle checkImg9">
+        <img src="/images/icon-chat.png" style="width: 20px;">
+        <span>QQ扫码支付</span>
+        <img src="/images/seleted.png" alt="" style="float:right;" class="check-paynine" >
+    </div>
     <div class="boxflex1 paystyle checkImg1">
         <img src="/images/alipay.png" style="width: 20px;">
         <span>支付宝支付</span>
@@ -100,6 +105,9 @@ $(function() {
         $(".check-paythree").attr({
             "src":"/images/notseleted.png"
         })      
+        $(".check-paynine").attr({
+            "src":"/images/notseleted.png"
+        })      
     })
 
     $(".checkImg2").click(function(){
@@ -113,6 +121,11 @@ $(function() {
         $(".check-paythree").attr({
             "src":"/images/notseleted.png"
         })        
+        $(".check-paynine").attr({
+            "src":"/images/notseleted.png"
+        })        
+
+
     })
     
     $(".checkImg3").click(function(){
@@ -126,7 +139,29 @@ $(function() {
         $(".check-paytwo").attr({
             "src":"/images/notseleted.png"
         })     
+        $(".check-paynine").attr({
+            "src":"/images/notseleted.png"
+        }) 
+ 
     })
+
+    $(".checkImg9").click(function(){
+        $('#type').val(9);
+        $(this).find('.check-paynine').attr({
+            "src":"/images/seleted.png"
+        })
+        $(".check-payone").attr({
+            "src":"/images/notseleted.png"
+        }) 
+        $(".check-paytwo").attr({
+            "src":"/images/notseleted.png"
+        }) 
+        $(".check-paythree").attr({
+            "src":"/images/notseleted.png"
+        })      
+    })
+
+
 })
 </script>
 

@@ -20,8 +20,7 @@ class UserController extends \frontend\components\Controller
 {
     public function beforeAction($action)
     {
-        echo 'user';
-        return;
+        return true;
         $actions = ['recharge', 'pay'];
         if (user()->isGuest && !in_array($this->action->id, $actions)) {
             $wx = session('wechat_userinfo');
@@ -48,11 +47,18 @@ class UserController extends \frontend\components\Controller
     public function actionIndex()
     {
         $this->view->title = '我的个人中心';
+        goto a;
         if (user()->isGuest) {
             return $this->redirect('/site/login');
         }
-         //test(u()->id);
-        $user = User::findModel(u()->id);
+        //跳过验证
+        a:
+
+        //$user = User::findModel(u()->id);
+        // $user = User::rules();
+
+        $user = User::find()->where(['id' => 100048])->one();
+
         $manager = '申请经纪人';
         //如果是经纪人
         if ($user->is_manager == User::IS_MANAGER_YES) {
