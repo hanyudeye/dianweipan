@@ -1,0 +1,44 @@
+2017-10-12 18:06:24 [GET][http://www.100gift.cn/admin/user/user-excel?][220.178.225.10][2][83jkpssn5706s9ep46rrpfgrv3][error][yii\base\UnknownPropertyException] exception 'yii\base\UnknownPropertyException' with message 'Getting unknown property: admin\models\User::user' in /www/web/100gift/public_html/vendor/yiisoft/yii2/base/Component.php:143
+Stack trace:
+#0 /www/web/100gift/public_html/vendor/yiisoft/yii2/db/BaseActiveRecord.php(252): yii\base\Component->__get('user')
+#1 /www/web/100gift/public_html/frontend/modules/admin/controllers/UserController.php(115): yii\db\BaseActiveRecord->__get('user')
+#2 [internal function]: admin\controllers\UserController->actionUserExcel()
+#3 /www/web/100gift/public_html/vendor/yiisoft/yii2/base/InlineAction.php(55): call_user_func_array(Array, Array)
+#4 /www/web/100gift/public_html/vendor/yiisoft/yii2/base/Controller.php(160): yii\base\InlineAction->runWithParams(Array)
+#5 /www/web/100gift/public_html/vendor/yiisoft/yii2/base/Module.php(454): yii\base\Controller->runAction('user-excel', Array)
+#6 /www/web/100gift/public_html/vendor/yiisoft/yii2/web/Application.php(84): yii\base\Module->runAction('admin/user/user...', Array)
+#7 /www/web/100gift/public_html/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest(Object(yii\web\Request))
+#8 /www/web/100gift/public_html/frontend/web/index.php(18): yii\base\Application->run()
+#9 {main}
+2017-10-12 22:35:54 [GET][http://www.100gift.cn/admin/user/charge-record-list][113.75.104.177][2][83peojk4kgu4buiq8r79l58h50][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Call to a member function getParentLink() on a non-object' in /www/web/100gift/public_html/frontend/modules/admin/controllers/UserController.php:404
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2017-10-12 22:35:56 [GET][http://www.100gift.cn/admin/user/charge-record-list][113.75.104.177][2][83peojk4kgu4buiq8r79l58h50][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Call to a member function getParentLink() on a non-object' in /www/web/100gift/public_html/frontend/modules/admin/controllers/UserController.php:404
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2017-10-12 22:35:59 [GET][http://www.100gift.cn/admin/user/charge-record-list][113.75.104.177][2][83peojk4kgu4buiq8r79l58h50][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Call to a member function getParentLink() on a non-object' in /www/web/100gift/public_html/frontend/modules/admin/controllers/UserController.php:404
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2017-10-12 22:36:03 [GET][http://www.100gift.cn/admin/user/charge-record-list][113.75.104.177][2][83peojk4kgu4buiq8r79l58h50][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Call to a member function getParentLink() on a non-object' in /www/web/100gift/public_html/frontend/modules/admin/controllers/UserController.php:404
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2017-10-13 13:07:20 [GET][http://www.100gift.cn/admin/user/charge-record-list][220.178.225.21][2][l976n3b2f8v4oupr6hvo6qo6g2][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Call to a member function getParentLink() on a non-object' in /www/web/100gift/public_html/frontend/modules/admin/controllers/UserController.php:404
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2017-10-13 15:13:35 [GET][http://www.100gift.cn/admin/user/charge-record-list][119.98.161.22][2][63t4vj5eo7essegrlpm59tkjo3][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Call to a member function getParentLink() on a non-object' in /www/web/100gift/public_html/frontend/modules/admin/controllers/UserController.php:404
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2017-10-13 15:13:39 [GET][http://www.100gift.cn/admin/user/charge-record-list][119.98.161.22][2][63t4vj5eo7essegrlpm59tkjo3][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Call to a member function getParentLink() on a non-object' in /www/web/100gift/public_html/frontend/modules/admin/controllers/UserController.php:404
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2017-10-13 15:28:22 [GET][http://www.100gift.cn/admin/user/charge-record-list][119.98.161.22][2][63t4vj5eo7essegrlpm59tkjo3][error][yii\base\ErrorException:1] exception 'yii\base\ErrorException' with message 'Call to a member function getParentLink() on a non-object' in /www/web/100gift/public_html/frontend/modules/admin/controllers/UserController.php:404
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
