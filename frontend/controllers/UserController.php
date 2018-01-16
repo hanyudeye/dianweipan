@@ -20,7 +20,7 @@ class UserController extends \frontend\components\Controller
 {
     public function beforeAction($action)
     {
-        // return true;
+        return true;
         $actions = ['recharge', 'pay'];
         if (user()->isGuest && !in_array($this->action->id, $actions)) {
             $wx = session('wechat_userinfo');

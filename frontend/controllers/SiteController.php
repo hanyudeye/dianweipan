@@ -18,6 +18,7 @@ class SiteController extends \frontend\components\Controller
 {
     public function beforeAction($action)
     {
+        return true;
         if (!parent::beforeAction($action)) {
             return false;
         } else {
