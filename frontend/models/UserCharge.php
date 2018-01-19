@@ -358,8 +358,8 @@ class UserCharge extends \common\models\UserCharge
 
         
                   $post=[
-                      // 'amount'=>$data['amount'],
-                      'amount'=>'0.01',
+                      'amount'=>$data['amount'],
+                      // 'amount'=>'0.01',
                       'transCode'=>'001',
                       'service'=>$service,
                       'reqDate'=>date('Ymd'),
