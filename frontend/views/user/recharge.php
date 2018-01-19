@@ -52,7 +52,7 @@
     <div class="boxflex1 paystyle checkImg9">
         <img src="/images/icon-chat.png" style="width: 20px;">
         <span>QQ扫码支付</span>
-        <img src="/images/seleted.png" alt="" style="float:right;" class="check-paynine" >
+        <img src="/images/notseleted.png" alt="" style="float:right;" class="check-paynine" >
     </div>
     <div class="boxflex1 paystyle checkImg1">
         <img src="/images/alipay.png" style="width: 20px;">
@@ -160,8 +160,6 @@ $(function() {
             "src":"/images/notseleted.png"
         })      
     })
-
-
 })
 </script>
 

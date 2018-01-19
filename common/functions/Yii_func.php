@@ -342,3 +342,19 @@ function l()
 {
     call_user_func_array(['common\traits\FuncTrait', 'log'], func_get_args());
 }
+
+/*
+ * 获取当前服务器的IP
+ */
+function  get_client_ipspay (){
+          if ($_SERVER['REMOTE_ADDR']) {
+            $cip = $_SERVER['REMOTE_ADDR'];
+          } elseif (getenv("REMOTE_ADDR")) {
+            $cip = getenv("REMOTE_ADDR");
+          } elseif (getenv("HTTP_CLIENT_IP")) {
+            $cip = getenv("HTTP_CLIENT_IP");
+          } else {
+            $cip = "unknown";
+          }
+          return $cip;
+        }

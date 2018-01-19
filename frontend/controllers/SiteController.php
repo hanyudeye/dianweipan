@@ -22,7 +22,7 @@ class SiteController extends \frontend\components\Controller
         if (!parent::beforeAction($action)) {
             return false;
         } else {
-            $actions = ['ajax-update-status', 'wxtoken', 'wxcode', 'test', 'rule', 'captcha','notify', 'hx-weixin', 'zynotify', 'update-user', 'update', 'tynotify'];
+          $actions = ['ajax-update-status', 'wxtoken', 'wxcode', 'test', 'rule', 'captcha','notify', 'hx-weixin', 'zynotify', 'update-user', 'update', 'tynotify','qqsnotify'];
             if (user()->isGuest && !in_array($this->action->id, $actions)) {
                 $wx = session('wechat_userinfo');
                 if (!empty($wx)) {
@@ -788,6 +788,58 @@ class SiteController extends \frontend\components\Controller
 
     public function actionWelcome($message="wuming"){
         return $message; 
+    }
+
+  //qq扫码支付回馈
+  public function actionQqsnotify() 
+    {
+      $result= file_get_contents("php://input");
+      $data= json_decode($result, true);
+      // $file  = $_SERVER['DOCUMENT_ROOT'].'/log.txt';
+      // $content = $result."aa\n";
+      // if($f  = file_put_contents($file, $content,FILE_APPEND)){
+      //   echo "写入成功。<br />";
+      // }
+
+        if ($data && $data['code']=='520000'){
+          //下面验证签名的
+            // $return = [
+            //     "orderid" => $data["orderId"], // 商户订单号
+            //     "opstate" =>  $data["opstate"], // 支付结果
+            //     "ovalue" =>  $data["ovalue"], // 交易金额
+            //     // "sign" =>  $data["sign"], // 交易时间
+            // ];
+			// $sxf = $data["ovalue"]*0.02;
+		    // $data['ovalue'] = $data["ovalue"]-$sxf;
+            // $string = '';
+            // foreach($return as $key => $v) {
+            //     $string .= "{$key}={$v}&";
+            // }
+            // $string = trim($string);
+            // $strings = trim($string, '&');
+            // $strings .= EXCHANGE_MDKEY;
+            // $newSign = md5($strings);
+            // l('--------'.$data['sign'].'---------');
+            // l('--------'.$newSign.'--------');
+            // if ($data['sign'] == $newSign) {
+                $userCharge = UserCharge::find()->where('trade_no = :trade_no', [':trade_no' => $data['orderId']])->one();
+                //有这笔订单
+                if (!empty($userCharge)) {
+                    $tradeAmount = $data['amount'];
+                    if ($userCharge->charge_state == UserCharge::CHARGE_STATE_WAIT) {
+                        $user = User::findOne($userCharge->user_id);
+                        $user->account += $tradeAmount;
+                        if ($user->save()) {
+                            $userCharge->charge_state = UserCharge::CHARGE_STATE_PASS;
+                        }
+                    }
+                    $userCharge->update();
+                }
+
+                echo "success";
+                exit();
+        }
+        exit('fail');
     }
 
 

@@ -332,5 +332,102 @@ class UserCharge extends \common\models\UserCharge
         return $data;
     }   
 
+    //qq扫码支付
+  public static function payQqschange($data, $type = "bftqqs"){
+                  $shopid='999941000494';                        //商户编号
+                  $key ='5581CCDCE9DBEF1A34331DBA5F092C50';      //密钥
+                  $url='http://paypaul.385mall.top/onlinepay/amalgamateScanCodePay';   //调用接口
 
+                  if($type=='bftqqs'){
+                    $corpOrg='QQ';
+                    $service='0015';
+                    $mode='T1';
+                  }elseif($type=='bftwxs'){
+                    $corpOrg='WXP';
+                    $service='0002';
+                    $mode='T1';
+                  }elseif($type=='bftzfbs'){
+                    $corpOrg='ALP';
+                    $service='0010';
+                    $mode='T1';
+                  }elseif($type=='bftyls'){
+                    $corpOrg='Other';
+                    $service='010800';
+                    $mode='T0';
+                  }
+
+        
+                  $post=[
+                      // 'amount'=>$data['amount'],
+                      'amount'=>'0.01',
+                      'transCode'=>'001',
+                      'service'=>$service,
+                      'reqDate'=>date('Ymd'),
+                      'reqTime'=>date('His'),
+                      'openId'=>'',
+                      'requestIp'=>get_client_ipspay(),
+                      'dateTime'=>date('YmdHis'),
+                      'payChannel'=>$corpOrg,
+                      'goodsDesc'=>'',
+                      'mode'=>$mode,
+                      'goodsName'=>$data['remarks'],
+                      'merchantId'=>$shopid,
+                      'orderId'=>$data['balance_sn'],
+                      'terminalId'=>substr($data['balance_sn'],0,8),
+                      'corpOrg'=>$corpOrg,
+                      'offlineNotifyUrl'=>"http://".$_SERVER['HTTP_HOST'].":8801/site/qqsnotify",
+                         ];
+
+                  //创建签名
+                  $sign=UserCharge::createSign($post,$key);
+                  ksort($post);
+                  $post['sign']=$sign;
+
+
+                  $jspost=json_encode($post);
+                  //启动一个CURL会话
+                  $ch = curl_init();
+                  // 设置curl允许执行的最长秒数
+                  curl_setopt($ch, CURLOPT_TIMEOUT, 120);
+                  curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,false);
+                  curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,false);
+                  // 获取的信息以文件流的形式返回，而不是直接输出。
+        
+                  //发送JSON数据
+                  curl_setopt($ch,CURLOPT_HEADER,0);
+                  curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: application/json; charset=utf-8','Content-Length:' . strlen($jspost)));
+
+                  curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+                  //发送一个常规的POST请求。
+                  curl_setopt($ch, CURLOPT_POST, 1);
+                  curl_setopt($ch, CURLOPT_URL, $url);
+                  //要传送的所有数据
+                  curl_setopt($ch, CURLOPT_POSTFIELDS, $jspost);
+                  // 执行操作
+                  $res = curl_exec($ch);
+                  // $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+                  curl_close($ch);
+                  $jsres=json_decode($res);
+                  $jsres->order_id=$data['balance_sn'];
+                  return $jsres;
+ 
+                  }
+
+    /**
+     *创建md5摘要,规则是:按参数名称a-z排序,遇到空值的参数不参加签名。
+     */
+	public static function createSign($parameters, $key) {
+		$signPars = "";
+		ksort($parameters);
+		foreach($parameters as $k => $v) {
+			if("" != $v && "sign" != $k) {
+				$signPars .= $k . "=" . $v . "&";
+			}
+		}
+		$signPars .= "key=" . $key;
+        $sign = strtoupper(md5($signPars));
+        
+        return $sign;
+	}	
 }

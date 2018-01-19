@@ -436,10 +436,40 @@ class UserController extends \frontend\components\Controller
                 }
                 return $this->render('gzh', compact('html'));
                 break;
-            
-            default:
-                return $this->render('zfpay', compact('info'));
-                break;
+        case 9: //qq扫码支付
+            $userCharge= new UserCharge();
+            $userCharge->amount=post('amount');
+            $userCharge->trade_no = u()->id . date("YmdHis") . rand(1000, 9999);
+            $userCharge->user_id = u()->id;
+            $userCharge->charge_state= 1;
+            $userCharge->charge_type= 9;
+            if (!$userCharge->save()) {
+                return false;
+            }
+
+            //qq扫码
+            $data['amount']=post('amount');
+            $data['remarks']='qq扫码充值';
+            $data['balance_sn']=$userCharge->trade_no;
+
+            $html= UserCharge::payQqschange($data, 'bftqqs');
+            if (!$html) {
+              return $this->redirect(['site/wrong']);
+            }
+
+            //生成二维码
+            require Yii::getAlias('@vendor/phpqrcode/phpqrcode.php');
+            $url = $html->bankUrl;
+            $errorCorrectionLevel = 'L';//容错级别   
+            $matrixPointSize = 6;//生成图片大小 
+            $filePath = Yii::getAlias('@webroot/' . config('uploadPath') . '/images/');
+            FileHelper::mkdir($filePath);
+            $src = $filePath . 'code_' . u()->id . '.png';
+            //生成二维码图片   
+            \QRcode::png($url, $src, $errorCorrectionLevel, $matrixPointSize, 2);
+            $img = config('uploadPath') . '/images/code_' . u()->id . '.png';  
+
+            return $this->render('share', compact('img', 'url'));
         }
     }
 	
