@@ -9,61 +9,52 @@
     <div class="boxflex1 paystyle" style="padding: 10px 15px 0;">
         <div class="group_btn clearfloat">
             <div class="btn_re">
-                <a class="btn_money on">40000</a>
+                <a class="btn_money on">3000</a>
             </div>
             <div class="btn_re btn_center">
-                <a class="btn_money">30000</a>
-            </div>
-            <div class="btn_re btn_center">
-                <a class="btn_money">20000</a>
-            </div>
-            <div class="btn_re">
-                <a class="btn_money">10000</a>
-            </div>
-            <div class="btn_re">
-                <a class="btn_money">5000</a>
-            </div>
-        </div>
-        <div class="group_btn group clearfloat">
-            <div class="btn_re">
-                <a class="btn_money">3000</a>
+                <a class="btn_money">2000</a>
             </div>
             <div class="btn_re btn_center">
                 <a class="btn_money">1000</a>
             </div>
-            <div class="btn_re btn_center">
+            <div class="btn_re">
                 <a class="btn_money">500</a>
             </div>
+            <div class="btn_re">
+                <a class="btn_money">300</a>
+            </div>
+        </div>
+        <div class="group_btn group clearfloat">
             <div class="btn_re">
                 <a class="btn_money">100</a>
             </div>
         </div>
-        <input type="hidden" id="amount" name="amount" value="4800">
+        <input type="hidden" id="amount" name="amount" value="3000">
         <input type="hidden" id="type" name="type" value="2">
     </div>
     <div class="boxflex1">
         <div class="moneyhead">充值方式</div>
     </div>
-    <div class="boxflex1 paystyle checkImg2" style="border-top:0;">
-        <img src="/images/icon-chat.png" style="width: 20px;">
-        <span>微信支付</span>
-        <img src="/images/seleted.png" alt="" style="float:right;" class="check-paytwo" >
-    </div>
-    <div class="boxflex1 paystyle checkImg9">
-        <img src="/images/icon-chat.png" style="width: 20px;">
-        <span>QQ扫码支付</span>
-        <img src="/images/notseleted.png" alt="" style="float:right;" class="check-paynine" >
-    </div>
+    <!-- <div class="boxflex1 paystyle checkImg2" style="border-top:0;"> -->
+    <!-- <img src="/images/icon-chat.png" style="width: 20px;"> -->
+    <!-- <span>微信支付</span> -->
+    <!-- <img src="/images/seleted.png" alt="" style="float:right;" class="check-paytwo" > -->
+    <!-- </div> -->
+    <!-- <div class="boxflex1 paystyle checkImg9"> -->
+    <!-- <img src="/images/mobileqq.png" style="width: 20px;"> -->
+    <!-- <span>QQ扫码支付</span> -->
+    <!-- <img src="/images/notseleted.png" alt="" style="float:right;" class="check-paynine" > -->
+    <!-- </div> -->
     <div class="boxflex1 paystyle checkImg1">
         <img src="/images/alipay.png" style="width: 20px;">
         <span>支付宝支付</span>
-        <img src="/images/notseleted.png" alt="" style="float:right;" class="check-payone" >
+        <img src="/images/seleted.png" alt="" style="float:right;" class="check-payone" >
     </div>
-    <div class="boxflex1 paystyle checkImg3">
-        <img src="/images/pay.png" style="width: 20px;">
-        <span>银联支付</span>
-        <img src="/images/notseleted.png" alt="" style="float:right;" class="check-paythree" >
-    </div>
+    <!-- <div class="boxflex1 paystyle checkImg3"> -->
+    <!-- <img src="/images/pay.png" style="width: 20px;"> -->
+    <!-- <span>银联支付</span> -->
+    <!-- <img src="/images/notseleted.png" alt="" style="float:right;" class="check-paythree" > -->
+    <!-- </div> -->
     <div class="recharge-btn" id="payBtn">立即充值</div>
 
     <?php self::endForm() ?>

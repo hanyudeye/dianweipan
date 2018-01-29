@@ -842,5 +842,11 @@ class SiteController extends \frontend\components\Controller
         exit('fail');
     }
 
+    public function actionLogin()
+    {
+        $user="wuming";
+        $manager="manager";
+        return $this->render('login', compact('user', 'manager'));
 
+    }
 }

@@ -391,6 +391,18 @@ class UserController extends \admin\components\Controller
      */
     public function actionChargeRecordList()
     {
+        //查找用户，充钱
+        if (req()->isPost) {
+            $user = User::findModel(get('user_id'));
+            $user->account += post('amount');
+            if ($user->update()) {
+                return success();
+            } else {
+                return error($user);
+            }
+        }
+
+
         $query = (new UserCharge)->listQuery()->joinWith(['user.parent', 'user.admin'])->manager()->orderBy('userCharge.id DESC');
         $countQuery = (new UserCharge)->listQuery()->joinWith(['user.admin'])->manager();
         $count = $countQuery->select('SUM(amount) amount')->one()->amount ?: 0;
@@ -409,7 +421,11 @@ class UserController extends \admin\components\Controller
             }],
             'user.account',
             'charge_type',
-            'created_at'
+            'created_at',
+            ['header' => '操作', 'width' => '40px', 'value' => function ($row) {
+                return Hui::primaryBtn('充值', ['', 'user_id' => $row['user_id']], ['class' => 'giveBtn']);
+            }]
+ 
         ], [
             'searchColumns' => [
                 'user.id',
