@@ -53,10 +53,9 @@ class UserController extends \frontend\components\Controller
         if (user()->isGuest) {
             return $this->redirect('/site/login');
         }
-        //跳过验证
 
-        $user = User::findModel(u()->id);
-        $user = User::rules();
+        // $user = User::findModel(u()->id);
+        // $user = User::rules();
 
         $user = User::find()->where(['id' => 100048])->one();
 
