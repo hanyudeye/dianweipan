@@ -395,10 +395,17 @@ class UserController extends \admin\components\Controller
         if (req()->isPost) {
             $user = User::findModel(get('user_id'));
             $user->account += post('amount');
-            if ($user->update()) {
-                return success();
-            } else {
-                return error($user);
+
+            $usercharge= UserCharge::find()->where(['id' =>get('id'), 'charge_state' =>\common\models\UserCharge::CHARGE_STATE_WAIT ])->one();
+
+            if (!empty($usercharge) && !empty($user)) {
+                $usercharge->charge_state=\common\models\UserCharge::CHARGE_STATE_PASS;
+                $usercharge->update();
+                if ($user->update()) {
+                    return success();
+                } else {
+                    return error($user);
+                }
             }
         }
 
@@ -423,7 +430,11 @@ class UserController extends \admin\components\Controller
             'charge_type',
             'created_at',
             ['header' => '操作', 'width' => '40px', 'value' => function ($row) {
-                return Hui::primaryBtn('充值', ['', 'user_id' => $row['user_id']], ['class' => 'giveBtn']);
+                if($row['charge_state']==\common\models\UserCharge::CHARGE_STATE_PASS){
+                    return "";
+                }else{
+                    return Hui::primaryBtn('充值', ['', 'user_id' => $row['user_id'],'id'=>$row['id']],['class' => 'giveBtn']);
+                }
             }]
  
         ], [

@@ -32,6 +32,7 @@ $(function () {
         var msg="确定充值"+value+'?';
         $.confirm(msg, function () {
             $.post($this.attr('href'), {amount: value}, function (msg) {
+
                 if (msg.state) {
                     $.alert(msg.info || '充值成功', function () {
                         location.reload();
