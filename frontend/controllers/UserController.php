@@ -20,7 +20,6 @@ class UserController extends \frontend\components\Controller
 {
     public function beforeAction($action)
     {
-        return true;
         $actions = ['recharge', 'pay'];
         //如果是游客
         if (user()->isGuest && !in_array($this->action->id, $actions)) {
@@ -51,15 +50,13 @@ class UserController extends \frontend\components\Controller
     public function actionIndex()
     {
         $this->view->title = '我的个人中心';
-        goto a;
         if (user()->isGuest) {
             return $this->redirect('/site/login');
         }
         //跳过验证
-        a:
 
-        //$user = User::findModel(u()->id);
-        // $user = User::rules();
+        $user = User::findModel(u()->id);
+        $user = User::rules();
 
         $user = User::find()->where(['id' => 100048])->one();
 
