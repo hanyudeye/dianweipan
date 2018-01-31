@@ -18,7 +18,6 @@ class SiteController extends \frontend\components\Controller
 {
     public function beforeAction($action)
     {
-        return true;
         if (!parent::beforeAction($action)) {
             return false;
         } else {
@@ -84,6 +83,8 @@ class SiteController extends \frontend\components\Controller
     {
 
         $this->view->title = config('web_name');
+        echo 'index';
+        die();
         //找三个上架的产品ON_SALE_YES
         $productArr = Product::getIndexProduct();
         foreach ($productArr as $key => $value) {

@@ -6,13 +6,13 @@ const PAGE_SIZE = 10;
 const THEME_NAME = 'basic';
 const SECRET_KEY = 'ChisWill';
 
-const WEB_DOMAIN = 'http://www.100gift.cn';
+const WEB_DOMAIN = 'http://royal.sqiesy.cn';
 
-const WX_APPID = 'wx42842357ce5d6595';
+const WX_APPID = 'wxeaa5fbb6a4da4689';
 const WX_MCHID = '1337714901';
 const WX_KEY = 'VKcJg2LUnnRPjmYtPX3Tfm8vqradppF9';
-const WX_APPSECRET = 'd580584b6e67427071a6341e294b3ec1';
-const WX_TOKEN = 'jgZBoGWXMKzwixhJ';
+const WX_APPSECRET = '0fb7fbe586ece988ce6f7507a8c5cf3a';
+const WX_TOKEN = 'abcdef123456';
 
 const HX_ID = '193439';
 const HX_TID = '1934390012';
