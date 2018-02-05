@@ -1,8 +1,5 @@
 <?php
 
-ini_set("display_errors", "On"); 
-error_reporting(E_ALL); //-1是关闭
-
 require(__DIR__ . '/../../common/config/Env.php');
 
 require(__DIR__ . '/../../vendor/autoload.php');

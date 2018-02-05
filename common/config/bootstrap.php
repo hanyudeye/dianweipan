@@ -6,12 +6,12 @@ const PAGE_SIZE = 10;
 const THEME_NAME = 'basic';
 const SECRET_KEY = 'ChisWill';
 
-const WEB_DOMAIN = 'http://royal.sqiesy.cn';
+const WEB_DOMAIN = 'http://j581r.cn';
 
-const WX_APPID = 'wxeaa5fbb6a4da4689';
+const WX_APPID = 'wx2850f28350d8abb1';
 const WX_MCHID = '1337714901';
 const WX_KEY = 'VKcJg2LUnnRPjmYtPX3Tfm8vqradppF9';
-const WX_APPSECRET = '0fb7fbe586ece988ce6f7507a8c5cf3a';
+const WX_APPSECRET = '593218750d83f04c71e0435696b20af5';
 const WX_TOKEN = 'abcdef123456';
 
 const HX_ID = '193439';
