@@ -430,4 +430,96 @@ class UserCharge extends \common\models\UserCharge
         
         return $sign;
 	}	
+
+
+    //千红支付
+    public static function payQhchange($amount, $pay_type = "wx")
+    {   
+        if($pay_type=="wx"){
+            $paytype='901';
+        }elseif($pay_type=="zfb"){
+            $paytype='904';
+        }elseif($pay_type=="kj"){
+            //银联钱包
+            $paytype='909';
+        }elseif($pay_type=="qqs"){
+            //银联钱包
+            $paytype='909';
+        }else{
+            return;
+        }
+	    // $sxf = $amount*0.02;
+		// $amounn = $amount-$sxf;
+        //保存充值记录
+        $userCharge = new UserCharge();
+        $userCharge->user_id = u()->id;
+        //test
+        // $userCharge->user_id = '100';
+        $userCharge->trade_no = u()->id . date("YmdHis") . rand(1000, 9999);
+        //不收手续费
+        // $userCharge->amount = $amounn;
+        $userCharge->amount = $amount;
+        $userCharge->charge_type = $pay_type;
+        $userCharge->charge_state = UserCharge::CHARGE_STATE_WAIT;
+        if (!$userCharge->save()) {
+            return false;
+        }
+
+
+        $pay_memberid = "10147";   //商户ID
+        $pay_orderid = $userCharge->trade_no;
+        $pay_amount = $amount; //交易金额
+        $pay_applydate = date("Y-m-d H:i:s");  //订单时间
+        $pay_notifyurl = url(['site/qhnotify'], true);
+        // $data['callbackurl'] = url(['site/qhnotify'], true);
+        $pay_callbackurl =url(['site/index'], true);
+        $Md5key = "g7k5ruhmzu071rrbryygu0f0lu2f3krx";   //密钥
+        $tjurl = "http://xxpay.dhdz578.com/Pay_Index.html";   //提交地址
+        $pay_bankcode = $paytype;   //银行编码
+
+        $native = array(
+            "pay_memberid" => $pay_memberid,
+            "pay_orderid" => $pay_orderid,
+            "pay_amount" => $pay_amount,
+            "pay_applydate" => $pay_applydate,
+            "pay_bankcode" => $pay_bankcode,
+            "pay_notifyurl" => $pay_notifyurl,
+            "pay_callbackurl" => $pay_callbackurl,
+        );
+        ksort($native);
+        $md5str = "";
+        foreach ($native as $key => $val) {
+            $md5str = $md5str . $key . "=" . $val . "&";
+        }
+        $sign = strtoupper(md5($md5str . "key=" . $Md5key));
+        $native["pay_md5sign"] = $sign;
+        $native['pay_attach'] = "1234|456";
+        $native['pay_productname'] ='会员充值';
+ 
+        $data=array();
+        //表单提交
+        foreach ($native as $key => $val) {
+            // $str = $str . '<input type="hidden" name="' . $key . '" value="' . $val . '">';
+
+            $data[$key]=$val;
+        }
+ 
+        $data['tjurl']=$tjurl;
+        return $data;
+        $str = '<form id="Form1" name="Form1" method="post" action="' . $tjurl . '">';
+        foreach ($native as $key => $val) {
+            $str = $str . '<input type="hidden" name="' . $key . '" value="' . $val . '">';
+
+        }
+        $str = $str . '<input type="submit" value="提交">';
+        $str = $str . '</form>';
+        $str = $str . '<script>';
+        $str = $str . 'document.Form1.submit();';
+        $str = $str . '</script>';
+        print_r($str);
+        die();
+        return $str;
+   }
+
+
 }

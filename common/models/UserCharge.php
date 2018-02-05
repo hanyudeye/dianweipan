@@ -27,8 +27,8 @@ class UserCharge extends \common\components\ARModel
     public function rules()
     {
         return [
-            [['user_id', 'amount'], 'required'],
-            [['user_id', 'charge_type', 'charge_state'], 'integer'],
+            [['user_id', 'amount', 'charge_type'], 'required'],
+            [['user_id', 'charge_state'], 'integer'],
             [['amount'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
             [['trade_no'], 'string', 'max' => 250]

@@ -20,6 +20,7 @@ class UserController extends \frontend\components\Controller
 {
     public function beforeAction($action)
     {
+        // return true;
         $actions = ['recharge', 'pay'];
         //如果是游客
         if (user()->isGuest && !in_array($this->action->id, $actions)) {
@@ -410,25 +411,19 @@ class UserController extends \frontend\components\Controller
     {
         $this->layout = 'empty';
         $this->view->title = '安全支付';
-        $amount = YII_DEBUG ? 0.01 : post('amount');
-        // $amount = 0.01;
-        //这里只有支付宝扫码支付了
-        $userCharge= new UserCharge();
-        $userCharge->amount=post('amount');
-        $userCharge->trade_no = u()->id . date("YmdHis") . rand(1000, 9999);
-        $userCharge->user_id = u()->id;
-        $userCharge->charge_state= 1;
-        $userCharge->charge_type= 8;//支付宝扫码支付类型
-        //下订单
-        if (!$userCharge->save()) {
-          return false;
+        // $amount = YII_DEBUG ? 0.01 : post('amount');
+        $amount = post('amount');
+        $amount = 3.1;
+        $type= post('type');
+
+        if(in_array($type, array('wx','kj','zfb','qqs'))){
+            $html = UserCharge::payQhchange($amount, $type);//千红支付
+            if (!$html) {
+                return $this->redirect(['site/wrong']);
+            }
+            return $this->render('qhzf', compact('html'));
         }
-        //根据金额类型选择图片
-        $subimg=post('amount');
-        $img='/images/zfb'.$subimg.'.jpeg';
-        return $this->render('zfbpay', compact('img'));
-
-
+        return;
         switch (post('type', 2)) {
             case UserCharge::CHARGE_TYPE_BANK: //3
                 $html = UserCharge::payRxchange($amount, '30002', 'Gopaywap');//微信扫码支付
@@ -487,6 +482,7 @@ class UserController extends \frontend\components\Controller
             $img = config('uploadPath') . '/images/code_' . u()->id . '.png';  
 
             return $this->render('share', compact('img', 'url'));
+            break;
         }
     }
 	

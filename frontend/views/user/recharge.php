@@ -30,25 +30,25 @@
             </div>
         </div>
         <input type="hidden" id="amount" name="amount" value="3000">
-        <input type="hidden" id="type" name="type" value="2">
+        <input type="hidden" id="type" name="type" value="wx">
     </div>
     <div class="boxflex1">
         <div class="moneyhead">充值方式</div>
     </div>
-    <!-- <div class="boxflex1 paystyle checkImg2" style="border-top:0;"> -->
-    <!-- <img src="/images/icon-chat.png" style="width: 20px;"> -->
-    <!-- <span>微信支付</span> -->
-    <!-- <img src="/images/seleted.png" alt="" style="float:right;" class="check-paytwo" > -->
-    <!-- </div> -->
-    <!-- <div class="boxflex1 paystyle checkImg9"> -->
-    <!-- <img src="/images/mobileqq.png" style="width: 20px;"> -->
-    <!-- <span>QQ扫码支付</span> -->
-    <!-- <img src="/images/notseleted.png" alt="" style="float:right;" class="check-paynine" > -->
-    <!-- </div> -->
-    <div class="boxflex1 paystyle checkImg1">
+    <div class="boxflex1 paystyle checkImgwx" style="border-top:0;">
+        <img src="/images/icon-chat.png" style="width: 20px;">
+        <span>微信支付</span>
+        <img src="/images/seleted.png" alt="" style="float:right;" class="check-paywx" >
+    </div>
+    <div class="boxflex1 paystyle checkImgkj">
+        <img src="/images/pay.png" style="width: 20px;">
+        <span>快捷支付</span>
+        <img src="/images/notseleted.png" alt="" style="float:right;" class="check-paykj" >
+    </div>
+    <div class="boxflex1 paystyle checkImgzfb">
         <img src="/images/alipay.png" style="width: 20px;">
         <span>支付宝支付</span>
-        <img src="/images/seleted.png" alt="" style="float:right;" class="check-payone" >
+        <img src="/images/notseleted.png" alt="" style="float:right;" class="check-payzfb" >
     </div>
     <!-- <div class="boxflex1 paystyle checkImg3"> -->
     <!-- <img src="/images/pay.png" style="width: 20px;"> -->
@@ -69,7 +69,7 @@
 </div>
 <script>
 $(function() {
-    $('#type').val(2);
+    $('#type').val('wx');
     $(".btn_money").click(function() {
         $(".on").removeClass("on");
         $(this).addClass("on");
@@ -85,72 +85,47 @@ $(function() {
         $("#payform").submit();
     });
 
-    $(".checkImg1").click(function(){
-        $('#type').val(4);
-        $(this).find('.check-payone').attr({
+    $(".checkImgwx").click(function(){
+        $('#type').val('wx');
+        $(this).find('.check-paywx').attr({
             "src":"/images/seleted.png"
         })
-        $(".check-paytwo").attr({
+        $(".check-paykj").attr({
             "src":"/images/notseleted.png"
         }) 
-        $(".check-paythree").attr({
-            "src":"/images/notseleted.png"
-        })      
-        $(".check-paynine").attr({
+        $(".check-payzfb").attr({
             "src":"/images/notseleted.png"
         })      
     })
 
-    $(".checkImg2").click(function(){
-        $('#type').val(2);
-        $(this).find('.check-paytwo').attr({
+    $(".checkImgkj").click(function(){
+        $('#type').val('kj');
+        $(this).find('.check-paykj').attr({
             "src":"/images/seleted.png"
         })
-        $(".check-payone").attr({
+        $(".check-paywx").attr({
             "src":"/images/notseleted.png"
         })
-        $(".check-paythree").attr({
+        $(".check-payzfb").attr({
             "src":"/images/notseleted.png"
         })        
-        $(".check-paynine").attr({
-            "src":"/images/notseleted.png"
-        })        
-
 
     })
     
-    $(".checkImg3").click(function(){
-        $('#type').val(3);
-        $(this).find('.check-paythree').attr({
+    $(".checkImgzfb").click(function(){
+        $('#type').val('zfb');
+        $(this).find('.check-payzfb').attr({
             "src":"/images/seleted.png"
         })
-        $(".check-payone").attr({
+        $(".check-paywx").attr({
             "src":"/images/notseleted.png"
         }) 
-        $(".check-paytwo").attr({
+        $(".check-paykj").attr({
             "src":"/images/notseleted.png"
         })     
-        $(".check-paynine").attr({
-            "src":"/images/notseleted.png"
-        }) 
  
     })
 
-    $(".checkImg9").click(function(){
-        $('#type').val(9);
-        $(this).find('.check-paynine').attr({
-            "src":"/images/seleted.png"
-        })
-        $(".check-payone").attr({
-            "src":"/images/notseleted.png"
-        }) 
-        $(".check-paytwo").attr({
-            "src":"/images/notseleted.png"
-        }) 
-        $(".check-paythree").attr({
-            "src":"/images/notseleted.png"
-        })      
-    })
 })
 </script>
 

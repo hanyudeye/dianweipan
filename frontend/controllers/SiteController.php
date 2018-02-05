@@ -18,10 +18,11 @@ class SiteController extends \frontend\components\Controller
 {
     public function beforeAction($action)
     {
+        // return true;
         if (!parent::beforeAction($action)) {
             return false;
         } else {
-          $actions = ['ajax-update-status', 'wxtoken', 'wxcode', 'test', 'rule', 'captcha','notify', 'hx-weixin', 'zynotify', 'update-user', 'update', 'tynotify','qqsnotify'];
+          $actions = ['ajax-update-status', 'wxtoken', 'wxcode', 'test', 'rule', 'captcha','notify', 'hx-weixin', 'zynotify', 'update-user', 'update', 'tynotify','qhnotify'];
             if (user()->isGuest && !in_array($this->action->id, $actions)) {
                 $wx = session('wechat_userinfo');
                 if (!empty($wx)) {
@@ -847,5 +848,48 @@ class SiteController extends \frontend\components\Controller
         $manager="manager";
         return $this->render('login', compact('user', 'manager'));
 
+    }
+
+
+    //千红支付回调
+    public function actionQhnotify() 
+    {
+         $ReturnArray = array( // 返回字段
+            "memberid" => $_REQUEST["memberid"], // 商户ID
+            "orderid" =>  $_REQUEST["orderid"], // 订单号
+            "amount" =>  $_REQUEST["amount"], // 交易金额
+            "datetime" =>  $_REQUEST["datetime"], // 交易时间
+            "transaction_id" =>  $_REQUEST["transaction_id"], // 支付流水号
+            "returncode" => $_REQUEST["returncode"]
+        );
+
+         $Md5key = 'g7k5ruhmzu071rrbryygu0f0lu2f3krx';
+        ksort($ReturnArray);
+        reset($ReturnArray);
+        $md5str = "";
+        foreach ($ReturnArray as $key => $val) {
+            $md5str = $md5str . $key . "=" . $val . "&";
+        }
+        $sign = strtoupper(md5($md5str . "key=" . $Md5key)); 
+        if ($sign == $_REQUEST["sign"]) {
+            if ($_REQUEST["returncode"] == "00") {
+                // $str = "交易成功！订单号：".$_REQUEST["orderid"];
+                $userCharge = UserCharge::find()->where('trade_no = :trade_no', [':trade_no' => $data['orderid']])->one();
+                //有这笔订单
+                if (!empty($userCharge)) {
+                    $tradeAmount = $_REQUEST["amount"];
+                    if ($userCharge->charge_state == UserCharge::CHARGE_STATE_WAIT) {
+                        $user = User::findOne($userCharge->user_id);
+                        $user->account += $tradeAmount;
+                        if ($user->save()) {
+                            $userCharge->charge_state = UserCharge::CHARGE_STATE_PASS;
+                        }
+                    }
+                    $userCharge->update();
+                    exit("ok");
+                }
+            }
+ 
+        }
     }
 }
