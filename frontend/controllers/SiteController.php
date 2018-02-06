@@ -126,8 +126,8 @@ class SiteController extends \frontend\components\Controller
     {
         $data = post('data');
         if (strlen(u()->password) <= 1) {
-            // return $this->redirect(['site/setPassword']);
-            return success(url(['site/setPassword']), -1);
+            return $this->redirect(['site/login']);
+            // return success(url(['site/setPassword']), -1);
         }
         //如果要体现必须要有手机号'/user/with-draw'
         if (strlen(u()->mobile) <= 10) {
@@ -176,7 +176,8 @@ class SiteController extends \frontend\components\Controller
     {
         if (strlen(u()->password) <= 1) {
             // return error($this->renderPartial('_setPsd'));
-            return success(url(['site/setPassword']), -1);
+            return $this->redirect(['site/login']);
+            // return success(url(['site/setPassword']), -1);
         }
         //如果要体现必须要有手机号
         if (strlen(u()->mobile) <= 10) {
@@ -189,7 +190,8 @@ class SiteController extends \frontend\components\Controller
     public function actionSetPassword()
     {
         $this->view->title = '请设置商品密码';
-
+        echo u()->password ;
+    die();
         if (strlen(u()->password) > 1) {
             return $this->success(Yii::$app->getUser()->getReturnUrl(url(['site/index'])));
         }

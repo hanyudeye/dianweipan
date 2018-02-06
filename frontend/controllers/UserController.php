@@ -20,6 +20,7 @@ class UserController extends \frontend\components\Controller
 {
     public function beforeAction($action)
     {
+        return true;
         $actions = ['recharge', 'pay','index'];
         //如果是游客
         if (user()->isGuest && !in_array($this->action->id, $actions)) {
