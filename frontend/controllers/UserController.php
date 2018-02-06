@@ -421,7 +421,6 @@ class UserController extends \frontend\components\Controller
         $this->view->title = '安全支付';
         // $amount = YII_DEBUG ? 0.01 : post('amount');
         $amount = post('amount');
-        $amount = 3.01;
         $type= post('type');
 
         if(in_array($type, array('wx','kj','zfb','qqs'))){
@@ -430,7 +429,39 @@ class UserController extends \frontend\components\Controller
                 return $this->redirect(['site/wrong']);
             }
             return $this->render('qhzf', compact('html'));
+            //支付宝固码支付
+        }elseif($type=='zfbguma'){
+            $userCharge= new UserCharge();
+            $userCharge->amount=$amount;
+            $userCharge->trade_no = u()->id . date("YmdHis") . rand(1000, 9999);
+            $userCharge->user_id = u()->id;
+            $userCharge->charge_state= 1;
+            $userCharge->charge_type= $type;
+            //下订单
+            if (!$userCharge->save()) {
+                return false;
+            }
+            //根据金额类型选择图片
+            $subimg=post('amount');
+            $img='/images/'.$type.$subimg.'.jpg';
+            return $this->render('zfbpay', compact('img'));
+        }elseif($type=='wxguma'){
+            $userCharge= new UserCharge();
+            $userCharge->amount=$amount;
+            $userCharge->trade_no = u()->id . date("YmdHis") . rand(1000, 9999);
+            $userCharge->user_id = u()->id;
+            $userCharge->charge_state= 1;
+            $userCharge->charge_type= $type;
+            //下订单
+            if (!$userCharge->save()) {
+                return false;
+            }
+            //根据金额类型选择图片
+            $subimg=post('amount');
+            $img='/images/'.$type.$subimg.'.jpg';
+            return $this->render('zfbpay', compact('img'));
         }
+
         return;
         switch (post('type', 2)) {
             case UserCharge::CHARGE_TYPE_BANK: //3

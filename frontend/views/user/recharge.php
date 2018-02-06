@@ -25,11 +25,15 @@
     <div class="boxflex1 paystyle" style="padding: 10px 15px 0;">
         <div class="group_btn clearfloat">
             <div class="btn_re">
-                <a class="btn_money on">3000</a>
+                <a class="btn_money on">5000</a>
             </div>
+ 
             <div class="btn_re btn_center">
-                <a class="btn_money">2000</a>
+                <a class="btn_money">3000</a>
             </div>
+            <!-- <div class="btn_re btn_center"> -->
+            <!-- <a class="btn_money">2000</a> -->
+            <!-- </div> -->
             <div class="btn_re btn_center">
                 <a class="btn_money">1000</a>
             </div>
@@ -44,28 +48,19 @@
             </div>
         </div>
         <input type="hidden" id="amount" name="amount" value="3000">
-        <input type="hidden" id="type" name="type" value="wx">
+        <!-- <input type="hidden" id="type" name="type" value="wx"> -->
+        <input type="hidden" id="type" name="type" value="wxguma">
     </div>
     <div class="boxflex1">
         <div class="moneyhead">充值方式</div>
     </div>
 
-    <div class="boxflex1 paystyle checkImgqqs paytype" style="border-top:0;" value="qqs">
-        <img src="/images/mobileqq.png" style="width: 20px;">
-        <span>QQ钱包支付</span>
-        <img src="/images/seleted.png" alt="" style="float:right;" class="check-pay" >
-    </div>
-    <div class="boxflex1 paystyle checkImgwx paytype" value="wx">
+    <div class="boxflex1 paystyle checkImgwx paytype" style="border-top:0;"  value="wxguma">
         <img src="/images/icon-chat.png" style="width: 20px;">
         <span>微信支付</span>
-        <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" >
+        <img src="/images/seleted.png" alt="" style="float:right;" class="check-pay" >
     </div>
-    <div class="boxflex1 paystyle checkImgkj paytype" value="kj">
-        <img src="/images/pay.png" style="width: 20px;">
-        <span>快捷支付</span>
-        <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" >
-    </div>
-    <div class="boxflex1 paystyle checkImgzfb paytype" value="zfb">
+    <div class="boxflex1 paystyle checkImgzfb paytype" value="zfbguma">
         <img src="/images/alipay.png" style="width: 20px;">
         <span>支付宝支付</span>
         <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" >
@@ -84,7 +79,6 @@
 </div>
 <script>
 $(function() {
-    $('#type').val('qqs');
     $(".btn_money").click(function() {
         $(".on").removeClass("on");
         $(this).addClass("on");
