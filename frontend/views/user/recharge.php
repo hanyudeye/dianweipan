@@ -113,7 +113,7 @@ $(function() {
     })
 
 
-	  var winHeight = $(window).height();
+	   var winHeight = $(window).height();
 			function is_weixin() {
 			    var ua = navigator.userAgent.toLowerCase();
 			    if (ua.match(/MicroMessenger/i) == "micromessenger") {
@@ -124,8 +124,8 @@ $(function() {
 			}
 			var isWeixin = is_weixin();
 			if(isWeixin){
-				$(".weixin-tip").css("height",winHeight);
-	            $(".weixin-tip").show();
+				//$(".weixin-tip").css("height",winHeight);
+	       //     $(".weixin-tip").show();
 			}else{
           // document.location.href="http://syooau.cn/";
       }
