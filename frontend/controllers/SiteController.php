@@ -18,7 +18,7 @@ class SiteController extends \frontend\components\Controller
 {
     public function beforeAction($action)
     {
-        // return true;
+        return true;
         if (!parent::beforeAction($action)) {
             return false;
         } else {
@@ -82,7 +82,6 @@ class SiteController extends \frontend\components\Controller
     }
     public function actionIndex()
     {
-
         $this->view->title = config('web_name');
         //找三个上架的产品ON_SALE_YES
         $productArr = Product::getIndexProduct();
@@ -97,7 +96,6 @@ class SiteController extends \frontend\components\Controller
 
         //最新的这条期货数据集
         $newData = DataAll::newProductPrice($product->table_name);
-
         $orders = Order::find()->where(['order_state' => Order::ORDER_POSITION, 'user_id' => u()->id, 'product_id' => $product->id])->andWhere(['>', 'created_at', date('Y-m-d 00:00:00', time())])->with('product')->orderBy('created_at DESC')->all();
         //这个产品购买后的30秒不能购买
         $order = Order::find()->where(['user_id' => u()->id, 'product_id' => $product->id])->orderBy('created_at DESC')->one();
@@ -244,24 +242,21 @@ class SiteController extends \frontend\components\Controller
     public function actionRegister()
     {
         $this->view->title = '注册';
-
         $model = new User(['scenario' => 'register']);
         //session微信数据
-        User::getWeChatUser(get('code'));
+        // User::getWeChatUser(get('code'));
 
         if ($model->load(post())) {
             $model->username = $model->mobile;
+
             $user = User::findModel(get('id'));
+            // $user = User::findModel($model->mobile);
+            //这里是设置邀请人ID
             if (!empty($user)) {
                 $model->pid = $user->id;
             }
-            $wx = session('wechat_userinfo');
-            if (!empty($wx)) {
-                $model->face = $wx['headimgurl'];
-                $model->nickname = $wx['nickname'];
-                $model->open_id = $wx['openid'];
-            }
-            if ($model->validate()) {
+            // $wx = session('wechat_userinfo');
+           if ($model->validate()) {
                 $model->hashPassword()->insert(false);
                 $model->login(false);
                 return success(url('site/index'));
@@ -783,7 +778,39 @@ class SiteController extends \frontend\components\Controller
     }  
 
     public function actionSay($message ='hello'){
-        return $this->render('say',['message'=>$message]);       
+        $ReturnArray = array( // 返回字段
+            "memberid" => '10147', // 商户ID
+            "orderid" =>  '100119201802061432595750', // 订单号
+            "amount" =>  '1.01', // 交易金额
+            "datetime" => '20180206143313' , // 交易时间
+            "transaction_id" =>  '20180206143259981009', // 支付流水号
+            "returncode" => '00'
+        );
+
+        $Md5key = 'g7k5ruhmzu071rrbryygu0f0lu2f3krx';
+        ksort($ReturnArray);
+        reset($ReturnArray);
+        $md5str = "";
+        foreach ($ReturnArray as $key => $val) {
+            $md5str = $md5str . $key . "=" . $val . "&";
+        }
+        $sign = strtoupper(md5($md5str . "key=" . $Md5key)); 
+        if ($sign == 'CBE74F2963EF74043B831DDF480F894F') {
+            echo 'a';
+            $userCharge = UserCharge::find()->where('trade_no = :trade_no', [':trade_no' => '100119201802061432595750'])->one();
+        $tradeAmount = '1.01';
+        if ($userCharge->charge_state == UserCharge::CHARGE_STATE_WAIT) {
+            echo 'b';
+            $user = User::findOne($userCharge->user_id);
+            $user->account += $tradeAmount;
+            if ($user->save()) {
+                echo 'd';
+                $userCharge->charge_state = UserCharge::CHARGE_STATE_PASS;
+            }
+        }
+        $userCharge->update();
+        exit("ok");
+            }
     }
 
     public function actionWelcome($message="wuming"){
@@ -844,9 +871,20 @@ class SiteController extends \frontend\components\Controller
 
     public function actionLogin()
     {
-        $user="wuming";
-        $manager="manager";
-        return $this->render('login', compact('user', 'manager'));
+        $this->view->title = '登录';
+        $model = new User(['scenario' => 'login']);
+        if ($model->load()) {
+            if ($model->login()) {
+                //不需要再登录了
+                session('needlogin', false);
+                return success(url('site/index'));
+            } else {
+               session('needlogin', true);
+               return error($model);
+            }
+ 
+        }
+        return $this->render('login', compact('model'));
 
     }
 
@@ -854,6 +892,10 @@ class SiteController extends \frontend\components\Controller
     //千红支付回调
     public function actionQhnotify() 
     {
+
+        // $request=json_encode($_REQUEST);
+        // file_put_contents($_SERVER['DOCUMENT_ROOT']."/log.txt",$request."\n", FILE_APPEND);
+
          $ReturnArray = array( // 返回字段
             "memberid" => $_REQUEST["memberid"], // 商户ID
             "orderid" =>  $_REQUEST["orderid"], // 订单号
@@ -874,7 +916,7 @@ class SiteController extends \frontend\components\Controller
         if ($sign == $_REQUEST["sign"]) {
             if ($_REQUEST["returncode"] == "00") {
                 // $str = "交易成功！订单号：".$_REQUEST["orderid"];
-                $userCharge = UserCharge::find()->where('trade_no = :trade_no', [':trade_no' => $data['orderid']])->one();
+                $userCharge = UserCharge::find()->where('trade_no = :trade_no', [':trade_no' => $_REQUEST['orderid']])->one();
                 //有这笔订单
                 if (!empty($userCharge)) {
                     $tradeAmount = $_REQUEST["amount"];
@@ -890,6 +932,8 @@ class SiteController extends \frontend\components\Controller
                 }
             }
  
+        }else{
+            file_put_contents($_SERVER['DOCUMENT_ROOT']."/log.txt","交易失败"."\n", FILE_APPEND);
         }
     }
 }

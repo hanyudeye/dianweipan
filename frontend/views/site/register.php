@@ -5,7 +5,9 @@
         <div class="row">
             <div class="col-xs-12 text-center">
                 <div class="tx_img">
-                    <img src="" width="546" height="364"> </div>
+                    <img src="<?= config('web_logo') ?>" width="546" height="364"> </div>
+
+                    <!-- <img src="<?= config('web_logo') ?>" alt="<?= config('web_name') ?>"> -->
             </div>
         </div>
         <div class="row">
@@ -43,15 +45,17 @@
             </div>
         </div>
         <div class="reg_btn">
-            <a href="<?= url('site/login') ?>">返回登录</a>
+            <span class="pull-right" style="margin-bottom:10px;color:#fff;">
+                <a href="<?= url('site/login') ?>">返回登录</a>
+            </span>
             <button id="submitBtn">完成注册</button>
         </div>
     </div>
 
 <!-- 遮罩层开始 -->
-<div class="transmask">
-    <div class="infotips">你的信息已提交,正在审核<br/>请耐心等待审核</div>
-</div>
+    <!-- <div class="transmask"> -->
+    <!-- <div class="infotips">你的信息已提交,正在审核<br/>请耐心等待审核</div> -->
+    <!-- </div> -->
 
 <!-- 遮罩层结束 -->
 

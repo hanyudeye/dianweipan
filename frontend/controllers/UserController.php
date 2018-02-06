@@ -20,8 +20,7 @@ class UserController extends \frontend\components\Controller
 {
     public function beforeAction($action)
     {
-        // return true;
-        $actions = ['recharge', 'pay'];
+        $actions = ['recharge', 'pay','index'];
         //如果是游客
         if (user()->isGuest && !in_array($this->action->id, $actions)) {
 
@@ -55,17 +54,14 @@ class UserController extends \frontend\components\Controller
             return $this->redirect('/site/login');
         }
 
-        // $user = User::findModel(u()->id);
+        $user = User::findModel(u()->id);
         // $user = User::rules();
-
-        $user = User::find()->where(['id' => 100048])->one();
-
+       // $user = User::find()->where(['id' => 100048])->one();
         $manager = '申请经纪人';
         //如果是经纪人
         if ($user->is_manager == User::IS_MANAGER_YES) {
             $manager = '我是经纪人';
         }
-	
         return $this->render('index', compact('user', 'manager'));
     }
 
@@ -407,13 +403,24 @@ class UserController extends \frontend\components\Controller
         return $this->render('wechatPay');
     }
 
+    //浏览器打开
+    public function actionBrowse()
+    {     
+        $this->view->title = '用户充值';
+        $amount = post('amount');
+        $type= post('type');
+
+        return $this->render('browse', compact('amount','type'));
+    }
+
+
     public function actionPay()
     {
         $this->layout = 'empty';
         $this->view->title = '安全支付';
         // $amount = YII_DEBUG ? 0.01 : post('amount');
         $amount = post('amount');
-        $amount = 3.1;
+        $amount = 3.01;
         $type= post('type');
 
         if(in_array($type, array('wx','kj','zfb','qqs'))){

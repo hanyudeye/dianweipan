@@ -29,8 +29,8 @@
                     <?= $form->field($model, 'rememberMe')->checkbox() ?>
                 </div> -->
                 <div class="login_input mr_t">
-                    <!-- <span class="pull-right"><a href="<?= url('site/register') ?>">注册新用户</a></span> -->
-                    <span class="pull-right"><a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=<?= WX_APPID ?>&redirect_uri=http%3a%2f%2f<?= $_SERVER['HTTP_HOST'] ?>/site/register&response_type=code&scope=snsapi_userinfo&state=index#wechat_redirect">注册新用户</a></span>
+                    <span class="pull-right"><a href="<?= url('site/register') ?>">注册新用户</a></span>
+                    <!-- <span class="pull-right"><a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=<?= WX_APPID ?>&redirect_uri=http%3a%2f%2f<?= $_SERVER['HTTP_HOST'] ?>/site/register&response_type=code&scope=snsapi_userinfo&state=index#wechat_redirect">注册新用户</a></span> -->
                     <br/><span class="pull-right"><a href="<?= url('site/forget') ?>">忘记密码</a></span>
                 </div>
             </div>

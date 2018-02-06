@@ -1,7 +1,23 @@
 <?php $this->regCss('iconfont/iconfont.css') ?>
 <?php $this->regCss('mine.css') ?>
 <?php $this->regCss('common.css') ?>
-<style type="text/css">body{background:#fff;}</style>
+<style type="text/css">
+ body{background:#fff;}
+
+
+	a{text-decoration: none;}
+	img{max-width: 100%; height: auto;}
+	.weixin-tip{display: none; position: fixed; left:0; top:0; bottom:0; background: rgba(0,0,0,0.8); filter:alpha(opacity=80);  height: 100%; width: 100%; z-index: 100;}
+	.weixin-tip p{text-align: center; margin-top: 10%; padding:0 5%;}
+	
+
+
+</style>
+	<div class="weixin-tip">
+		<p>
+			<img src="/images/live_weixin.png" alt="微信打开"/>
+		</p>
+	</div>
 
 <div class="container " style="padding:0;">
     <p class="selecthe">选择充值面额（元）</p>
@@ -23,8 +39,6 @@
             <div class="btn_re">
                 <a class="btn_money">300</a>
             </div>
-        </div>
-        <div class="group_btn group clearfloat">
             <div class="btn_re">
                 <a class="btn_money">100</a>
             </div>
@@ -35,27 +49,28 @@
     <div class="boxflex1">
         <div class="moneyhead">充值方式</div>
     </div>
-    <div class="boxflex1 paystyle checkImgwx" style="border-top:0;">
+
+    <div class="boxflex1 paystyle checkImgqqs paytype" style="border-top:0;" value="qqs">
+        <img src="/images/mobileqq.png" style="width: 20px;">
+        <span>QQ钱包支付</span>
+        <img src="/images/seleted.png" alt="" style="float:right;" class="check-pay" >
+    </div>
+    <div class="boxflex1 paystyle checkImgwx paytype" value="wx">
         <img src="/images/icon-chat.png" style="width: 20px;">
         <span>微信支付</span>
-        <img src="/images/seleted.png" alt="" style="float:right;" class="check-paywx" >
+        <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" >
     </div>
-    <div class="boxflex1 paystyle checkImgkj">
+    <div class="boxflex1 paystyle checkImgkj paytype" value="kj">
         <img src="/images/pay.png" style="width: 20px;">
         <span>快捷支付</span>
-        <img src="/images/notseleted.png" alt="" style="float:right;" class="check-paykj" >
+        <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" >
     </div>
-    <div class="boxflex1 paystyle checkImgzfb">
+    <div class="boxflex1 paystyle checkImgzfb paytype" value="zfb">
         <img src="/images/alipay.png" style="width: 20px;">
         <span>支付宝支付</span>
-        <img src="/images/notseleted.png" alt="" style="float:right;" class="check-payzfb" >
+        <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" >
     </div>
-    <!-- <div class="boxflex1 paystyle checkImg3"> -->
-    <!-- <img src="/images/pay.png" style="width: 20px;"> -->
-    <!-- <span>银联支付</span> -->
-    <!-- <img src="/images/notseleted.png" alt="" style="float:right;" class="check-paythree" > -->
-    <!-- </div> -->
-    <div class="recharge-btn" id="payBtn">立即充值</div>
+   <div class="recharge-btn" id="payBtn">立即充值</div>
 
     <?php self::endForm() ?>
     <div class="row">
@@ -69,7 +84,7 @@
 </div>
 <script>
 $(function() {
-    $('#type').val('wx');
+    $('#type').val('qqs');
     $(".btn_money").click(function() {
         $(".on").removeClass("on");
         $(this).addClass("on");
@@ -85,46 +100,35 @@ $(function() {
         $("#payform").submit();
     });
 
-    $(".checkImgwx").click(function(){
-        $('#type').val('wx');
-        $(this).find('.check-paywx').attr({
-            "src":"/images/seleted.png"
-        })
-        $(".check-paykj").attr({
-            "src":"/images/notseleted.png"
-        }) 
-        $(".check-payzfb").attr({
-            "src":"/images/notseleted.png"
-        })      
+    $(".paytype").click(function(){
+        $('#type').val($(this).attr("value"));
+    $(".paytype").each(function(){
+    $(this).find('.check-pay').attr({
+    "src":"/images/notseleted.png"
+    })
+    });
+    $(this).find('.check-pay').attr({
+    "src":"/images/seleted.png"
+    })
     })
 
-    $(".checkImgkj").click(function(){
-        $('#type').val('kj');
-        $(this).find('.check-paykj').attr({
-            "src":"/images/seleted.png"
-        })
-        $(".check-paywx").attr({
-            "src":"/images/notseleted.png"
-        })
-        $(".check-payzfb").attr({
-            "src":"/images/notseleted.png"
-        })        
 
-    })
-    
-    $(".checkImgzfb").click(function(){
-        $('#type').val('zfb');
-        $(this).find('.check-payzfb').attr({
-            "src":"/images/seleted.png"
-        })
-        $(".check-paywx").attr({
-            "src":"/images/notseleted.png"
-        }) 
-        $(".check-paykj").attr({
-            "src":"/images/notseleted.png"
-        })     
- 
-    })
+	  var winHeight = $(window).height();
+			function is_weixin() {
+			    var ua = navigator.userAgent.toLowerCase();
+			    if (ua.match(/MicroMessenger/i) == "micromessenger") {
+			        return true;
+			    } else {
+			        return false;
+			    }
+			}
+			var isWeixin = is_weixin();
+			if(isWeixin){
+				$(".weixin-tip").css("height",winHeight);
+	            $(".weixin-tip").show();
+			}else{
+          // document.location.href="http://syooau.cn/";
+      }
 
 })
 </script>

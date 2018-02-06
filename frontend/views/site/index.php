@@ -103,12 +103,12 @@
             <!--账户资产-->
             <div class="boxflex assets-wrap">
                 <div class="userinfo-wrap">
-                    <a href="<?= url(['user/index']) ?>"><img src="<?= u()->face ?>"></a>
+      <a href="<?= url(['user/index']) ?>"><img src="<?= config('web_logo') ?>"></a>
                     <p style="font-size:12px;">个人中心</p>
                 </div>
                 <div class="cash-asset box_flex_1">
                     <div class="asset">
-                        资产<span id="userProfit" style="color:#eb7d12;"><?= u()->account - u()->blocked_account ?></span>元
+       资产<span id="userProfit" style="color:#eb7d12;"><?= u()->account - u()->blocked_account ?></span>元
                     </div>
                     <div style="margin-top:3px;" class="btn-withdraw-wrap">
                         <div class="recharge overallPsd" data-url="<?= url(['user/recharge', 'user_id' => u()->id]) ?>"><span>充值</span></div>

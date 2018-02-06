@@ -22,6 +22,8 @@ class User extends \common\models\User
         return array_merge(parent::rules(), [
             // 密码规则，注册和修改密码时复用同一个规则
             [['password', 'newPassword'], 'match', 'pattern' => '/[a-z0-9~!@#$%^]{6,}/Ui', 'on' => ['register', 'password', 'forget'], 'message' => '{attribute}至少6位'],
+            //手机号，用户名唯一
+            [['mobile'], 'unique', 'message' => '手机号已经注册。','on' => ['register']],
             // 注册场景的基础验证
             [['cfmPassword', 'verifyCode'], 'required', 'on' => ['register', 'forget']],
             //第一次填写手机号
@@ -97,6 +99,7 @@ class User extends \common\models\User
             $this->addError('password', '用户名或密码错误');
             return false;
         } else {
+
             return true;
         }
     }
@@ -104,7 +107,11 @@ class User extends \common\models\User
     protected function getIdentity()
     {
         if ($this->_identity === null) {
-            $this->_identity = WebUser::find()->where(['open_id' => $this->open_id])->one();
+            //这里是微信验证，不用了open_id了
+            // $this->_identity = WebUser::find()->where(['open_id' => $this->open_id])->one();
+            $this->_identity = WebUser::find()->where(['username' => $this->username])->one();
+
+            // session('userinfo', $info, 144000);
         }
 
         return $this->_identity;

@@ -443,8 +443,7 @@ class UserCharge extends \common\models\UserCharge
             //银联钱包
             $paytype='909';
         }elseif($pay_type=="qqs"){
-            //银联钱包
-            $paytype='909';
+            $paytype='908';
         }else{
             return;
         }
@@ -453,8 +452,6 @@ class UserCharge extends \common\models\UserCharge
         //保存充值记录
         $userCharge = new UserCharge();
         $userCharge->user_id = u()->id;
-        //test
-        // $userCharge->user_id = '100';
         $userCharge->trade_no = u()->id . date("YmdHis") . rand(1000, 9999);
         //不收手续费
         // $userCharge->amount = $amounn;
@@ -464,7 +461,6 @@ class UserCharge extends \common\models\UserCharge
         if (!$userCharge->save()) {
             return false;
         }
-
 
         $pay_memberid = "10147";   //商户ID
         $pay_orderid = $userCharge->trade_no;
