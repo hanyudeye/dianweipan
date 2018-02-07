@@ -123,9 +123,9 @@ class OrderController extends \frontend\components\Controller
         $data = post('data');
         $product = Product::findModel($data['product_id']);
         //特殊产品周末正常
-        if ((date('w') == 0 && $product->source == Product::SOURCE_TRUE) || (date('G') > 3 && date('w') == 6 && $product->source == Product::SOURCE_TRUE)) {
-            return error('周末休市，无法委托买入！');
-        }
+        // if ((date('w') == 0 && $product->source == Product::SOURCE_TRUE) || (date('G') > 3 && date('w') == 6 && $product->source == Product::SOURCE_TRUE)) {
+            // return error('周末休市，无法委托买入！');
+        // }
         //判断此期货是否在商品时间内
         if (!Product::isTradeTime($data['product_id'])) {
             return error('非买入时间，无法委托买入！');

@@ -194,7 +194,9 @@
                         <label><span>卖出</span></label>
                     </div>
                 </div>
-                <p><?= config('web_trade_time', '商品时间：周一~周五早上6:00~凌晨4:00 周末休市') ?></p>
+                <!-- <p><?= config('web_trade_time', '商品时间：周一~周五早上6:00~凌晨4:00 周末休市') ?></p> -->
+                <!-- 周末开市 -->
+                <p>商品时间：周一~周日早上6:00~凌晨4:00</p>
             </div>
            <!--  <div class="holdlist-wrap"><ul></ul></div> -->
         </div>

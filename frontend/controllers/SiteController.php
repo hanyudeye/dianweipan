@@ -251,7 +251,13 @@ class SiteController extends \frontend\components\Controller
         if ($model->load(post())) {
 
             $model->username = $model->mobile;
-            // $user = User::findModel(get('id'));
+            $user = User::findModel($model->pid);
+
+            if (!empty($user) && $user->is_manager =='1') {
+                $model->pid = $user->id;
+            }else{
+                return error('该邀请码用户非经纪人，无法注册！');
+            }
             // $user = User::findModel($model->mobile);
             //这里是设置邀请人ID
             // if (!empty($user)) {
