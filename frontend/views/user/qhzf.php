@@ -2,7 +2,6 @@
           <input type="hidden" name="pay_memberid" value="<?= $html['pay_memberid'] ?>">
           <input type="hidden" name="pay_orderid" value="<?= $html['pay_orderid'] ?>">
           <input type="hidden" name="pay_amount" value="<?= $html['pay_amount'] ?>">
-        <input type="hidden" name="pay_orderid" value="<?= $html['pay_orderid'] ?>">
           <input type="hidden" name="pay_applydate" value="<?= $html['pay_applydate'] ?>">
           <input type="hidden" name="pay_bankcode" value="<?= $html['pay_bankcode'] ?>">
           <input type="hidden" name="pay_notifyurl" value="<?= $html['pay_notifyurl'] ?>">

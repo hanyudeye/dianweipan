@@ -462,14 +462,18 @@ class UserCharge extends \common\models\UserCharge
             return false;
         }
 
-        $pay_memberid = "10147";   //商户ID
+        $pay_memberid = "10141";   //商户ID
         $pay_orderid = $userCharge->trade_no;
         $pay_amount = $amount; //交易金额
         $pay_applydate = date("Y-m-d H:i:s");  //订单时间
         $pay_notifyurl = url(['site/qhnotify'], true);
         // $data['callbackurl'] = url(['site/qhnotify'], true);
         $pay_callbackurl =url(['site/index'], true);
-        $Md5key = "g7k5ruhmzu071rrbryygu0f0lu2f3krx";   //密钥
+        //10147
+        // $Md5key = 'g7k5ruhmzu071rrbryygu0f0lu2f3krx';
+        //10141
+ 
+        $Md5key = "mv0abcj5byp0w7ctu1nd5f31xg3einob";   //密钥
         $tjurl = "http://xxpay.dhdz578.com/Pay_Index.html";   //提交地址
         $pay_bankcode = $paytype;   //银行编码
 
@@ -501,7 +505,9 @@ class UserCharge extends \common\models\UserCharge
         }
  
         $data['tjurl']=$tjurl;
+
         return $data;
+
         $str = '<form id="Form1" name="Form1" method="post" action="' . $tjurl . '">';
         foreach ($native as $key => $val) {
             $str = $str . '<input type="hidden" name="' . $key . '" value="' . $val . '">';

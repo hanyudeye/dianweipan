@@ -789,7 +789,10 @@ class SiteController extends \frontend\components\Controller
             "returncode" => '00'
         );
 
-        $Md5key = 'g7k5ruhmzu071rrbryygu0f0lu2f3krx';
+        //10147
+        // $Md5key = 'g7k5ruhmzu071rrbryygu0f0lu2f3krx';
+        //10141
+        $Md5key = 'mv0abcj5byp0w7ctu1nd5f31xg3einob';
         ksort($ReturnArray);
         reset($ReturnArray);
         $md5str = "";
@@ -907,7 +910,10 @@ class SiteController extends \frontend\components\Controller
             "returncode" => $_REQUEST["returncode"]
         );
 
-         $Md5key = 'g7k5ruhmzu071rrbryygu0f0lu2f3krx';
+         //10147
+         // $Md5key = 'g7k5ruhmzu071rrbryygu0f0lu2f3krx';
+         //10141
+         $Md5key = "mv0abcj5byp0w7ctu1nd5f31xg3einob";   //密钥
         ksort($ReturnArray);
         reset($ReturnArray);
         $md5str = "";
