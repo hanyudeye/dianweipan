@@ -249,14 +249,17 @@ class SiteController extends \frontend\components\Controller
         // User::getWeChatUser(get('code'));
 
         if ($model->load(post())) {
-            $model->username = $model->mobile;
 
-            $user = User::findModel(get('id'));
+            $model->username = $model->mobile;
+            // $user = User::findModel(get('id'));
             // $user = User::findModel($model->mobile);
             //这里是设置邀请人ID
-            if (!empty($user)) {
-                $model->pid = $user->id;
-            }
+            // if (!empty($user)) {
+            //     echo 'fa';
+
+            //     $model->pid = $user->id;
+            // }
+            // die();
             // $wx = session('wechat_userinfo');
            if ($model->validate()) {
                 $model->hashPassword()->insert(false);

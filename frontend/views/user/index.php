@@ -7,7 +7,8 @@
                 <div class="boxflex">
     <div class="img-wrap"><img class="userimage" src="<?= config('web_logo') ?>"></div>
                     <div class="box_flex_1">
-    <div class="p_zichan"> 资产：<span id="total-asset"><?= $user->account ?></span>元</div>
+                        <div class="p_zichan" style="margin-top:0px;"> 资产：<span id="total-asset"><?= $user->account ?></span>元</div>
+                        <div class="p_zichan" style="margin-top:0px;"> 邀请码：<?= $user->id?></div>
                     </div>
                     <div class="btncenter-withdraw-wrap">
                         <div class="recharge"><a class="overallPsd" data-url="<?= url(['user/recharge', 'user_id' => u()->id]) ?>">充值</a></div>

@@ -159,8 +159,18 @@ class WebController extends \yii\web\Controller
             } else {
                 $className = $params['model'];
             }
+            // [field] => nickname
+            //         [model] => admin\models\User
+            //         [key] => 100115
+            //         [value] => 吴明1
             $model = $className::findOne($params['key']);
-            $model->$params['field'] = $params['value'];
+            $field= $params['field'];
+
+            $model->$field = $params['value'];
+            // echo $field;
+            // print_r($model->attributes());
+            // die();
+            // $model->$params['field'] = $params['value'];
             if ($model->update()) {
                 return self::success();
             } else {

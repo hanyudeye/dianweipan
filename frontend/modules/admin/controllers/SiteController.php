@@ -17,6 +17,8 @@ class SiteController extends \admin\components\Controller
     {
         $this->layout = 'main';
 
+        // print_r($_SESSION);
+        // die();
         $this->view->title = config('web_name') ? config('web_name') . ' - 管理系统' : '';
 
         return $this->render('index');

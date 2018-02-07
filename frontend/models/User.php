@@ -26,6 +26,8 @@ class User extends \common\models\User
             [['mobile'], 'unique', 'message' => '手机号已经注册。','on' => ['register']],
             // 注册场景的基础验证
             [['cfmPassword', 'verifyCode'], 'required', 'on' => ['register', 'forget']],
+            //邀请码，注册时
+            [['pid'], 'required', 'on' => ['register']],
             //第一次填写手机号
             [['mobile', 'verifyCode'], 'required', 'on' => ['setMobile']],
             // 注册场景密码和确认密码的验证
@@ -47,7 +49,7 @@ class User extends \common\models\User
     public function scenarios()
     {
         return array_merge(parent::scenarios(), [
-            'register' => ['username', 'password', 'cfmPassword', 'mobile', 'verifyCode'],
+            'register' => ['username', 'password','pid', 'cfmPassword', 'mobile', 'verifyCode'],
             'login' => ['username', 'password', 'rememberMe'],
             'password' => ['oldPassword', 'newPassword', 'cfmPassword'],
             'forget' => ['password', 'cfmPassword', 'verifyCode'],
@@ -63,6 +65,7 @@ class User extends \common\models\User
             'oldPassword' => '旧密码',
             'newPassword' => '新密码',
             'cfmPassword' => '确认密码',
+            'pid' => '邀请码',
             'rememberMe' => '记住我',
             'verifyCode' => '短信验证码',
             'captcha' => '验证码',
