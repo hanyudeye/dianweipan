@@ -54,6 +54,29 @@ class UserExtend extends \common\models\UserExtend
     */ 
     public static function getManagerCodeImg()
     {
+        //改成百度的了
+        $registerurl='http://' . $_SERVER['HTTP_HOST'] . "/site/register?pid=".u()->id;
+        $url="http://pan.baidu.com/share/qrcode?w=150&h=150&url=".$registerurl;
+        // http://pan.baidu.com/share/qrcode?w=180&h=180&url=http://lanyes.org
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; MSIE 5.01; Windows NT 5.0)');
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
+
+        die();
+        //
+        $id = u()->id - 100000;
+        $data = ['action_name' => 'QR_LIMIT_SCENE', 'action_info' => ['scene' => ['scene_id' => $id]]];
+        $json = json_encode($data);
+        $wxTemplate = new \WxTemplate();
+       echo  $access_token = $wxTemplate->getAccessToken();
+        // echo $json; 
+        die();
+
         require Yii::getAlias('@vendor/wx/WxTemplate.php');
         
         $wxTemplate = new \WxTemplate();
@@ -79,6 +102,8 @@ class UserExtend extends \common\models\UserExtend
             curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $result = curl_exec($ch);
+            print_r($result);
+            die();
             if (curl_errno($ch)) {
                 curl_close($ch);
                 return false;

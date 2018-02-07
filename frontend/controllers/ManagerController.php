@@ -19,6 +19,7 @@ class ManagerController extends \frontend\components\Controller
 {
     public function beforeAction($action)
     {
+        return true;
         $actions = ['card', 'register', 'my-code'];
         if (user()->isGuest && !in_array($this->action->id, $actions)) {
             $wx = session('wechat_userinfo');
@@ -110,28 +111,31 @@ class ManagerController extends \frontend\components\Controller
     public function actionCard()
     {
         $this->view->title = '我的名片';
-
-        $filePath = Yii::getAlias('@webroot/' . config('uploadPath') . '/images/');
+        $filePath = Yii::getAlias('@webroot' . config('uploadPath') . '/images/');
         FileHelper::mkdir($filePath);
-        $src = $filePath . 'code_' . u()->id . '.jpg';
+        $src = $filePath . 'code_' . u()->id . '.png';
         if (!file_exists($src)) {
-            $url = UserExtend::getManagerCodeImg();
-            // $url = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQEM8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL2lqLUxYeHJsNGVxWUxSd0p1Uk1JAAIE3A0nWAMEAAAAAA==';
-            $data = file_get_contents($url);
-            $src = $filePath . 'code_' . u()->id . '.jpg';
-            file_put_contents($src, $data);
-        } else {
-            require Yii::getAlias('@vendor/wx/WxTemplate.php');
-        }
-        $src = config('uploadPath') . '/images/' . 'code_' . u()->id . '.jpg';
-        if (YII_DEBUG) {
-            $wxConfig = ['timestamp' => '', 'noncestr' => '', 'signature' => ''];
-        } else {
-            //分享支付
-            $wxTemplate = new \WxTemplate();
-            $wxConfig = $wxTemplate->getWxConfig('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+            $registerurl='http://' . $_SERVER['HTTP_HOST'] . "/site/register?code=".u()->id;
+            $url="http://pan.baidu.com/share/qrcode?w=150&h=150&url=".$registerurl;
+            $url=urldecode($url);
+            $ret=file_get_contents($url);
+            if($ret){
+                file_put_contents($src, $ret);
+            }else{
+                return false;
+            }
         }
 
+        $wxConfig = ['timestamp' => '', 'noncestr' => '', 'signature' => ''];
+        // if (YII_DEBUG) {
+        //     $wxConfig = ['timestamp' => '', 'noncestr' => '', 'signature' => ''];
+        // } else {
+        //     //分享支付
+        //     $wxTemplate = new \WxTemplate();
+        //     $wxConfig = $wxTemplate->getWxConfig('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+        // }
+
+        $src='http://' .$_SERVER['HTTP_HOST'] ."/uploadfile/images/" . 'code_' . u()->id . '.png';
         return $this->render('card', compact('src', 'wxConfig'));
     }
     //分享图片地址

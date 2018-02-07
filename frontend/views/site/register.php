@@ -71,6 +71,7 @@
 
 <script>
 $(function () {
+    $('#user-pid').val("<?= $code ?>");
     $("#submitBtn").click(function () {
         $("form").ajaxSubmit($.config('ajaxSubmit', {
             success: function (msg) {

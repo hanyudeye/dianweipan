@@ -245,8 +245,11 @@ class SiteController extends \frontend\components\Controller
     {
         $this->view->title = '注册';
         $model = new User(['scenario' => 'register']);
-        //session微信数据
-        // User::getWeChatUser(get('code'));
+        //邀请码
+        $code='';
+        if(get('code')){
+            $code= get('code');
+        }
 
         if ($model->load(post())) {
 
@@ -277,7 +280,7 @@ class SiteController extends \frontend\components\Controller
             }
         }
 
-        return $this->render('register', compact('model'));
+    return $this->render('register', compact('model','code'));
     }
 
     public function actionWeChart()
