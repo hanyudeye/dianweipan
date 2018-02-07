@@ -245,7 +245,7 @@ class SiteController extends \frontend\components\Controller
     {
         $this->view->title = '注册';
         $model = new User(['scenario' => 'register']);
-        //邀请码
+        //经纪人的id
         $code='';
         if(get('code')){
             $code= get('code');
@@ -254,6 +254,7 @@ class SiteController extends \frontend\components\Controller
         if ($model->load(post())) {
 
             $model->username = $model->mobile;
+            //pid 是邀请码id 
             $user = User::findModel($model->pid);
 
             if (!empty($user) && $user->is_manager =='1') {
