@@ -27,14 +27,10 @@
             <div class="btn_re">
                 <a class="btn_money on">5000</a>
             </div>
- 
             <div class="btn_re btn_center">
                 <a class="btn_money">3000</a>
             </div>
-            <!-- <div class="btn_re btn_center"> -->
-            <!-- <a class="btn_money">2000</a> -->
-            <!-- </div> -->
-            <div class="btn_re btn_center">
+           <div class="btn_re btn_center">
                 <a class="btn_money">1000</a>
             </div>
             <div class="btn_re">
@@ -47,7 +43,7 @@
                 <a class="btn_money">100</a>
             </div>
         </div>
-        <input type="hidden" id="amount" name="amount" value="3000">
+        <input type="hidden" id="amount" name="amount" value="5000">
         <input type="hidden" id="type" name="type" value="qqs">
         <!-- <input type="hidden" id="type" name="type" value="wxguma"> -->
     </div>
@@ -94,6 +90,8 @@
 </div>
 <script>
 $(function() {
+     $('#type').val('qqs');
+
     $(".btn_money").click(function() {
         $(".on").removeClass("on");
         $(this).addClass("on");
