@@ -261,7 +261,7 @@ class SiteController extends \frontend\components\Controller
            // User::find(->where('code'))
             //pid 是邀请码id 
             $retail= Retail::find()->where(['code' =>$yaoqingma ])->one();
-            if($retail){
+            if($yaoqingma && $retail){
                 $model->admin_id=$retail->attributes['admin_id'];
             }else{
                 
