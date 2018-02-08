@@ -3,7 +3,7 @@
 <?php $this->regCss('iconfont/iconfont.css') ?>
 <?php $this->regCss('list.css') ?>
 <?php $this->regCss('manager.css') ?>
-<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<!-- <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> -->
 <div id="main">
     <div class="twoDCode-box">
         <div class="codeImg">
@@ -15,6 +15,7 @@
     </div>
 </div>
 <script type="text/javascript">
+          return;
     //屏蔽所有右上角功能
     function onBridgeReady(){
         WeixinJSBridge.call('showOptionMenu');

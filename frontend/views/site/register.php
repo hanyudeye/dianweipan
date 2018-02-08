@@ -37,6 +37,14 @@
             </div>
             <div class="login_input">
                 <div class="type_box login_type_ls mg_b">
+                    <div class="type_name"><img src="/images/psd_one.png" width="18" height="18"></div>
+                    <div class="input_box">
+                        <?= $form->field($model, 'pid')->textInput(['placeholder' => '请输入邀请码'])  ?>
+                    </div>
+                </div>
+            </div>
+            <div class="login_input">
+                <div class="type_box login_type_ls mg_b">
                     <div class="type_name"><img src="/images/yz.png" width="18" height="18"></div>
                     <div class="input_box"><a class="pull-right" id="verifyCodeBtn" data-action="<?= url('site/verifyCode') ?>" data-mobile="#user-mobile" data-captcha="#user-captcha">发送验证码</a>
                         <input type="text" id="user-verifycode" style="width:70%;" class="form-control" name="User[verifyCode]" placeholder="验证码">
@@ -63,6 +71,7 @@
 
 <script>
 $(function () {
+    $('#user-pid').val("<?= $code ?>");
     $("#submitBtn").click(function () {
         $("form").ajaxSubmit($.config('ajaxSubmit', {
             success: function (msg) {

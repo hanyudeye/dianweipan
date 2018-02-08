@@ -73,15 +73,17 @@ use admin\models\AdminUser;?>
                 foreach ($menuData as $child) {
                     if ($child['pid'] == $parent['id'] && u()->can($child['url'])) {
 
-                        if ($_SESSION["__user"]!=2){
-                            if ($child['name']!='会员赠金'){
-                                $html .= '<li><a _href="' . url($child['url']) . '" data-title="' . $child['name'] . '" href=" ">' . $child['name'] . '</a ></li>';
-                            }
+                        // if ($_SESSION["__user"]!=2){
+                        //     if ($child['name']!='会员赠金'){
+                        //         $html .= '<li><a _href="' . url($child['url']) . '" data-title="' . $child['name'] . '" href=" ">' . $child['name'] . '</a ></li>';
+                        //     }
+                        // }else{
+                        //     $html .= '<li><a _href="' . url($child['url']) . '" data-title="' . $child['name'] . '" href="javascript:;">' . $child['name'] . '</a ></li>';
+                        // }
+                        if(u()->power !='9999' && $child['name']=='会员赠金'){
                         }else{
-                            $html .= '<li><a _href="' . url($child['url']) . '" data-title="' . $child['name'] . '" href="javascript:;">' . $child['name'] . '</a ></li>';
-                        }
-
-                        // $html .= '<li><a _href="' . url($child['url']) . '" data-title="' . $child['name'] . '" href="javascript:;">' . $child['name'] . '</a></li>';
+                            $html .= '<li><a _href="' . url($child['url']) . '" data-title="' . $child['name'] . '" href="javascript:;">' . $child['name'] . '</a></li>';
+                        } 
                     }
                 }
                 if (!$html) {

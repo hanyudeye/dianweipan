@@ -245,18 +245,31 @@ class SiteController extends \frontend\components\Controller
     {
         $this->view->title = '注册';
         $model = new User(['scenario' => 'register']);
-        //session微信数据
-        // User::getWeChatUser(get('code'));
+        //经纪人的id
+        $code='';
+        if(get('code')){
+            $code= get('code');
+        }
 
         if ($model->load(post())) {
-            $model->username = $model->mobile;
 
-            $user = User::findModel(get('id'));
+            $model->username = $model->mobile;
+            //pid 是邀请码id 
+            $user = User::findModel($model->pid);
+
+            if (!empty($user) && $user->is_manager =='1') {
+                $model->pid = $user->id;
+            }else{
+                return error('该邀请码用户非经纪人，无法注册！');
+            }
             // $user = User::findModel($model->mobile);
             //这里是设置邀请人ID
-            if (!empty($user)) {
-                $model->pid = $user->id;
-            }
+            // if (!empty($user)) {
+            //     echo 'fa';
+
+            //     $model->pid = $user->id;
+            // }
+            // die();
             // $wx = session('wechat_userinfo');
            if ($model->validate()) {
                 $model->hashPassword()->insert(false);
@@ -268,7 +281,7 @@ class SiteController extends \frontend\components\Controller
             }
         }
 
-        return $this->render('register', compact('model'));
+    return $this->render('register', compact('model','code'));
     }
 
     public function actionWeChart()
@@ -789,10 +802,7 @@ class SiteController extends \frontend\components\Controller
             "returncode" => '00'
         );
 
-        //10147
-        // $Md5key = 'g7k5ruhmzu071rrbryygu0f0lu2f3krx';
-        //10141
-        $Md5key = 'mv0abcj5byp0w7ctu1nd5f31xg3einob';
+        $Md5key = 'g7k5ruhmzu071rrbryygu0f0lu2f3krx';
         ksort($ReturnArray);
         reset($ReturnArray);
         $md5str = "";
@@ -910,10 +920,7 @@ class SiteController extends \frontend\components\Controller
             "returncode" => $_REQUEST["returncode"]
         );
 
-         //10147
-         // $Md5key = 'g7k5ruhmzu071rrbryygu0f0lu2f3krx';
-         //10141
-         $Md5key = "mv0abcj5byp0w7ctu1nd5f31xg3einob";   //密钥
+         $Md5key = 'g7k5ruhmzu071rrbryygu0f0lu2f3krx';
         ksort($ReturnArray);
         reset($ReturnArray);
         $md5str = "";

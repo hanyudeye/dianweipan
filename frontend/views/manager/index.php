@@ -4,7 +4,7 @@
     <div class="index-box">
         <div class="info clearfix">
             <div class="wxImg">
-                <img src="<?= u()->face ?>">
+                <img src="<?= config('web_logo') ?>">
             </div>
             <p class="realName nameAndTel"><?= $extend->realname ?></p>
             <p class="tel nameAndTel"><?= $extend->mobile ?></p>
