@@ -85,7 +85,7 @@ class RetailController extends \admin\components\Controller
         $adminUser = new AdminUser;
 
         if ($model->load()) {
-            $model->code = StringHelper::random(6, 'n');
+            $model->code = '99'.StringHelper::random(6, 'n');
             $model->admin_id = rand(1000, 9999);
             if ($model->validate()) {
                 if ($model->file1) {
