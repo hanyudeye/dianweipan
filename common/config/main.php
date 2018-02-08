@@ -6,11 +6,12 @@ return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'language' => 'zh-CN',
     'timeZone'=>'Asia/Shanghai',
-    'bootstrap' => bootstrap_filter(['rbac', 'test', 'setting'], ['wizard']),
+    'bootstrap' => bootstrap_filter(['rbac', 'test', 'setting']),
+    // 'bootstrap' => bootstrap_filter(['rbac', 'test', 'setting'], ['wizard']),
     'modules' => [
         'rbac' => 'common\modules\rbac\Module',
         'test' => 'common\modules\test\Module',
-        'wizard' => 'common\modules\wizard\Module',
+        // 'wizard' => 'common\modules\wizard\Module',
         'setting' => 'common\modules\setting\Module'
     ],
     'components' => [
