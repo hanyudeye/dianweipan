@@ -421,7 +421,7 @@ class UserController extends \frontend\components\Controller
         $this->view->title = '安全支付';
         // $amount = YII_DEBUG ? 0.01 : post('amount');
         $amount = post('amount');
-        $amount = 3.01;
+        // $amount = 3.01;
         $type= post('type');
 
         if(in_array($type, array('wx','kj','zfb','qqs'))){
