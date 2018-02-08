@@ -35,7 +35,7 @@ class UserCharge extends \common\models\UserCharge
     {
         return $this->search()
             //都查出来
-            ->andWhere(['charge_state' => UserCharge::CHARGE_STATE_WAIT])
+            ->andWhere(['charge_state' => UserCharge::CHARGE_STATE_PASS])
             ->andFilterWhere(['>=', 'userCharge.created_at', $this->start_time])
             ->andFilterWhere(['<=', 'userCharge.created_at', $this->end_time]);
     }
