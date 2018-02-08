@@ -268,6 +268,8 @@ class SiteController extends \frontend\components\Controller
                 $user = User::findModel($yaoqingma);
                 if (!empty($user) && $user->is_manager =='1') {
                     $model->pid = $user->id;
+                    $model->admin_id= $user->admin_id;
+#
                 }else{
                     return error('该邀请码用户非经纪人，无法注册！');
                 }
