@@ -70,11 +70,11 @@
       <span>快捷支付</span>
       <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" >
       </div>
-    <div class="boxflex1 paystyle checkImgzfb paytype" value="zfbguma">
-        <img src="/images/alipay.png" style="width: 20px;">
-        <span>支付宝支付</span>
-        <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" >
-    </div>
+      <!-- <div class="boxflex1 paystyle checkImgzfb paytype" value="zfbguma"> -->
+      <!-- <img src="/images/alipay.png" style="width: 20px;"> -->
+      <!-- <span>支付宝支付</span> -->
+      <!-- <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" > -->
+      <!-- </div> -->
    <div class="recharge-btn" id="payBtn">立即充值</div>
 
     <?php self::endForm() ?>
