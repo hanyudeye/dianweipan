@@ -429,13 +429,13 @@ class UserController extends \admin\components\Controller
             'user.account',
             'charge_type',
             'created_at',
-            ['header' => '操作', 'width' => '40px', 'value' => function ($row) {
-                if($row['charge_state']==\common\models\UserCharge::CHARGE_STATE_PASS){
-                    return "";
-                }else{
-                    return Hui::primaryBtn('充值', ['', 'user_id' => $row['user_id'],'id'=>$row['id']],['class' => 'giveBtn']);
-                }
-            }]
+            // ['header' => '操作', 'width' => '40px', 'value' => function ($row) {
+            //     if($row['charge_state']==\common\models\UserCharge::CHARGE_STATE_PASS){
+            //         return "";
+            //     }else{
+            //         return Hui::primaryBtn('充值', ['', 'user_id' => $row['user_id'],'id'=>$row['id']],['class' => 'giveBtn']);
+            //     }
+            // }]
  
         ], [
             'searchColumns' => [
