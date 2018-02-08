@@ -7,7 +7,6 @@ use admin\models\AdminUser;
 use admin\models\LoginForm;
 use admin\models\Retail;
 use admin\models\AdminLeader;
-
 /**
  * @author ChisWill
  */
@@ -16,7 +15,9 @@ class SiteController extends \admin\components\Controller
     public function actionIndex()
     {
         $this->layout = 'main';
-
+        // $menuData = \admin\models\AdminMenu::showMenu();
+        // print_r($menuData);
+        // die();
         $this->view->title = config('web_name') ? config('web_name') . ' - 管理系统' : '';
 
         return $this->render('index');

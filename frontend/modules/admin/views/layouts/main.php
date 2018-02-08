@@ -71,7 +71,9 @@ use admin\models\AdminUser;?>
             <?php
                 $html = '';
                 foreach ($menuData as $child) {
+                    // if ($child['pid'] == $parent['id'] && u()->can($child['url'])) {
                     if ($child['pid'] == $parent['id'] && u()->can($child['url'])) {
+                    // if ($child['pid'] == $parent['id']) {
 
                         // if ($_SESSION["__user"]!=2){
                         //     if ($child['name']!='会员赠金'){
