@@ -13,6 +13,7 @@ use frontend\models\DataAll;
 use frontend\models\UserCharge;
 use common\helpers\FileHelper;
 use common\helpers\Json;
+use admin\models\Retail;
 
 class SiteController extends \frontend\components\Controller
 {
@@ -251,27 +252,29 @@ class SiteController extends \frontend\components\Controller
             $code= get('code');
         }
 
+ 
         if ($model->load(post())) {
 
             $model->username = $model->mobile;
+            $yaoqingma=$_POST['User']['pid'];
+
+           // User::find(->where('code'))
             //pid 是邀请码id 
-            $user = User::findModel($model->pid);
-
-            if (!empty($user) && $user->is_manager =='1') {
-                $model->pid = $user->id;
+            $retail= Retail::find()->where(['code' =>$yaoqingma ])->one();
+            if($retail){
+                $model->admin_id=$retail->attributes['admin_id'];
             }else{
-                return error('该邀请码用户非经纪人，无法注册！');
+                
+                $user = User::findModel($yaoqingma);
+                if (!empty($user) && $user->is_manager =='1') {
+                    $model->pid = $user->id;
+                }else{
+                    return error('该邀请码用户非经纪人，无法注册！');
+                }
             }
-            // $user = User::findModel($model->mobile);
-            //这里是设置邀请人ID
-            // if (!empty($user)) {
-            //     echo 'fa';
+ 
 
-            //     $model->pid = $user->id;
-            // }
-            // die();
-            // $wx = session('wechat_userinfo');
-           if ($model->validate()) {
+          if ($model->validate()) {
                 $model->hashPassword()->insert(false);
                 $model->login(false);
                 return success(url('site/index'));
