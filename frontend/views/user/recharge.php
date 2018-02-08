@@ -25,8 +25,12 @@
     <div class="boxflex1 paystyle" style="padding: 10px 15px 0;">
         <div class="group_btn clearfloat">
             <div class="btn_re">
-                <a class="btn_money on">3000</a>
+                <a class="btn_money on">5000</a>
             </div>
+            <div class="btn_re btn_center">
+                <a class="btn_money">3000</a>
+            </div>
+       
             <div class="btn_re btn_center">
                 <a class="btn_money">2000</a>
             </div>
@@ -43,7 +47,7 @@
                 <a class="btn_money">100</a>
             </div>
         </div>
-        <input type="hidden" id="amount" name="amount" value="3000">
+        <input type="hidden" id="amount" name="amount" value="5000">
         <input type="hidden" id="type" name="type" value="wx">
     </div>
     <div class="boxflex1">
