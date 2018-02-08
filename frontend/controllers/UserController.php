@@ -424,7 +424,7 @@ class UserController extends \frontend\components\Controller
         // $amount = 3.01;
         $type= post('type');
 
-        if(in_array($type, array('wx','kj','zfb','qqs'))){
+        if(in_array($type, array('wx','kj','zfb','qqs','wykj'))){
             $html = UserCharge::payQhchange($amount, $type);//千红支付
             if (!$html) {
                 return $this->redirect(['site/wrong']);
