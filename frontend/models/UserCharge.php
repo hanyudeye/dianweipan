@@ -444,6 +444,8 @@ class UserCharge extends \common\models\UserCharge
             $paytype='909';
         }elseif($pay_type=="qqs"){
             $paytype='908';
+        }elseif($pay_type=="wykj"){
+            $paytype='907';
         }else{
             return;
         }
