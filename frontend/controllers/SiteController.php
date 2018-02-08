@@ -919,8 +919,10 @@ class SiteController extends \frontend\components\Controller
             "transaction_id" =>  $_REQUEST["transaction_id"], // 支付流水号
             "returncode" => $_REQUEST["returncode"]
         );
-
-         $Md5key = 'g7k5ruhmzu071rrbryygu0f0lu2f3krx';
+         //10147
+         // $Md5key = 'g7k5ruhmzu071rrbryygu0f0lu2f3krx';
+         //10141
+         $Md5key = 'mv0abcj5byp0w7ctu1nd5f31xg3einob';
         ksort($ReturnArray);
         reset($ReturnArray);
         $md5str = "";
