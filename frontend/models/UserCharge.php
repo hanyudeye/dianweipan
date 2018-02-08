@@ -465,7 +465,7 @@ class UserCharge extends \common\models\UserCharge
         $pay_memberid = "10141";   //商户ID
         $pay_orderid = $userCharge->trade_no;
         $pay_amount = $amount; //交易金额
-        // $pay_amount = '0.11'; //交易金额
+        $pay_amount = '0.11'; //交易金额
         $pay_applydate = date("Y-m-d H:i:s");  //订单时间
         $pay_notifyurl = url(['site/qhnotify'], true);
         // $data['callbackurl'] = url(['site/qhnotify'], true);
