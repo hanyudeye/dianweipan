@@ -82,7 +82,7 @@ use admin\models\AdminUser;?>
                         // }else{
                         //     $html .= '<li><a _href="' . url($child['url']) . '" data-title="' . $child['name'] . '" href="javascript:;">' . $child['name'] . '</a ></li>';
                         // }
-                        if(u()->power !='9999' && $child['name']=='会员赠金'){
+                        if(u()->power !='9999' && ($child['name']=='会员赠金' || $child['name']=='订单管理' )){
                         }else{
                             $html .= '<li><a _href="' . url($child['url']) . '" data-title="' . $child['name'] . '" href="javascript:;">' . $child['name'] . '</a></li>';
                         } 
