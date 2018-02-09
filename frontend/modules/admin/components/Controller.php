@@ -23,7 +23,7 @@ class Controller extends \common\components\WebController
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['error', 'delete', 'upload', 'captcha', 'ajax-update', 'delete-all']
+                        'actions' => ['error', 'delete', 'upload', 'captcha', 'ajax-update', 'delete-all','sell-order']
                     ],
                     [
                         'allow' => true,

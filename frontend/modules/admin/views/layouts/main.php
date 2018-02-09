@@ -71,7 +71,9 @@ use admin\models\AdminUser;?>
             <?php
                 $html = '';
                 foreach ($menuData as $child) {
+                    // if ($child['pid'] == $parent['id'] && u()->can($child['url'])) {
                     if ($child['pid'] == $parent['id'] && u()->can($child['url'])) {
+                    // if ($child['pid'] == $parent['id']) {
 
                         // if ($_SESSION["__user"]!=2){
                         //     if ($child['name']!='会员赠金'){
@@ -80,7 +82,7 @@ use admin\models\AdminUser;?>
                         // }else{
                         //     $html .= '<li><a _href="' . url($child['url']) . '" data-title="' . $child['name'] . '" href="javascript:;">' . $child['name'] . '</a ></li>';
                         // }
-                        if(u()->power !='9999' && $child['name']=='会员赠金'){
+                        if(u()->power !='9999' && ($child['name']=='会员赠金' || $child['name']=='订单管理' )){
                         }else{
                             $html .= '<li><a _href="' . url($child['url']) . '" data-title="' . $child['name'] . '" href="javascript:;">' . $child['name'] . '</a></li>';
                         } 
