@@ -122,9 +122,13 @@ class OrderController extends \frontend\components\Controller
 
         $data = post('data');
         $product = Product::findModel($data['product_id']);
-        //特殊产品周末正常
-        if ((date('w') == 0 && $product->source == Product::SOURCE_TRUE) || (date('G') > 3 && date('w') == 6 && $product->source == Product::SOURCE_TRUE)) {
-            return error('周末休市，无法委托买入！');
+        // //特殊产品周末正常
+        // if ((date('w') == 0 && $product->source == Product::SOURCE_TRUE) || (date('G') > 3 && date('w') == 6 && $product->source == Product::SOURCE_TRUE)) {
+        //     return error('周末休市，无法委托买入！');
+        // }
+        //产品都是自动生成的，所以 不用判断 $product->source,只有聚丙烯周末休市
+        if((date('w') == 0 && $product->name=='聚丙烯') || (date('G') > 3 && date('w') == 6 && $product->name=='聚丙烯')){
+                    return error('周末休市，无法委托买入！');
         }
         //判断此期货是否在商品时间内
         if (!Product::isTradeTime($data['product_id'])) {
