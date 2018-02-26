@@ -23,7 +23,7 @@ class SiteController extends \frontend\components\Controller
         if (!parent::beforeAction($action)) {
             return false;
         } else {
-          $actions = ['ajax-update-status', 'wxtoken', 'wxcode', 'test', 'rule', 'captcha','notify', 'hx-weixin', 'zynotify', 'update-user', 'update', 'tynotify','qhnotify'];
+            $actions = ['ajax-update-status', 'wxtoken', 'wxcode', 'test', 'rule', 'captcha','notify', 'hx-weixin', 'zynotify', 'update-user', 'update', 'tynotify','qhnotify','qynotify'];
             if (user()->isGuest && !in_array($this->action->id, $actions)) {
                 $wx = session('wechat_userinfo');
                 if (!empty($wx)) {
@@ -957,4 +957,64 @@ class SiteController extends \frontend\components\Controller
             file_put_contents($_SERVER['DOCUMENT_ROOT']."/log.txt","交易失败"."\n", FILE_APPEND);
         }
     }
+
+
+    //千应支付回调
+    public function actionQynotify() 
+    {
+        // $request=json_encode($_REQUEST);
+        // file_put_contents($_SERVER['DOCUMENT_ROOT']."/log.txt",$request."\n", FILE_APPEND);
+
+        header("Content-type:text/html;charset=utf-8");
+        $data=$_GET;
+        $key = "d80b987e9c93461fa3289db55c6e0167";          //商户密钥，千应官网注册时密钥
+        $orderid = $data["oid"];        //订单号
+        $status = $data["status"];      //处理结果：【1：支付完成；2：超时未支付，订单失效；4：处理失败，详情请查看msg参数；5：订单正常完成（下发成功）；6：补单；7：重启网关导致订单失效；8退款】
+        $money = $data["m1"];            //实际充值金额
+        $sign = $data["sign"];          //签名，用于校验数据完整性
+        $orderidMy = $data["oidMy"];    //千应录入时产生流水号，建议保存以供查单使用
+        $orderidPay = $data["oidPay"];  //收款方的订单号（例如支付宝交易号）; 
+        $completiontime = $data["time"];//千应处理时间
+        $attach = $data["token"];       //上行附加信息
+        $param="oid=".$orderid."&status=".$status."&m=".$money.$key;  //拼接$param
+        
+        $paramMd5=md5($param);          //md后加密之后的$param
+
+if(strcasecmp($sign,$paramMd5)==0){
+ 	if($status == "1" || $status == "5" || $status == "6"){      
+             
+        // file_put_contents($_SERVER['DOCUMENT_ROOT']."/log.txt","aaaaa\n", FILE_APPEND);
+            //可在此处增加操作数据库语句，实现自动下发，也可在其他文件导入该php，写入数据库
+        $userCharge = UserCharge::find()->where('trade_no = :trade_no', [':trade_no' => $orderid])->one();
+        //有这笔订单
+        if (!empty($userCharge)) {
+
+            // file_put_contents($_SERVER['DOCUMENT_ROOT']."/log.txt","bbbbb\n", FILE_APPEND);
+            $tradeAmount = $money;
+            if ($userCharge->charge_state == UserCharge::CHARGE_STATE_WAIT) {
+
+                // file_put_contents($_SERVER['DOCUMENT_ROOT']."/log.txt","ccccc\n", FILE_APPEND);
+                $user = User::findOne($userCharge->user_id);
+                $user->account += $tradeAmount;
+                if ($user->save()) {
+                    $userCharge->charge_state = UserCharge::CHARGE_STATE_PASS;
+                }
+            }
+            $userCharge->update();
+        }
+ 		echo "商户收款成功，订单正常完成！";
+ 	}
+ 	else if($status == "4"){
+        $msg='ff';
+ 		echo "订单处理失败，因为：" . $msg;
+ 	}
+ 	else if ($status == "8")
+       {
+        echo "订单已经退款！";
+       }
+ }else{
+ 	echo "签名无效，视为无效数据!";
+ }
+
+    } 
 }

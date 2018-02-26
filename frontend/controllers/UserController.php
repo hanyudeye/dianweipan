@@ -430,6 +430,16 @@ class UserController extends \frontend\components\Controller
             }
             return $this->render('qhzf', compact('html'));
             //支付宝固码支付
+        }elseif(in_array($type, array('qyzfbzf'))){
+            $html = UserCharge::payQychange($amount, $type);//千应支付
+            if (!$html) {
+                return $this->redirect(['site/wrong']);
+            }
+
+            echo 'f';
+            die();
+            return $this->render('qyzf', compact('html'));
+            //支付宝固码支付
         }elseif($type=='zfbguma'){
             $userCharge= new UserCharge();
             $userCharge->amount=$amount;

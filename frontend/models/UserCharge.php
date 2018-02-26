@@ -526,5 +526,134 @@ class UserCharge extends \common\models\UserCharge
         return $str;
    }
 
+    //千红支付
+    public static function payQychange($amount, $pay_type = "qyzfbzf")
+    {   
+        if($pay_type=="qyzfbzf"){
+            $paytype='901';
+        }// elseif($pay_type=="zfb"){
+        //     $paytype='904';
+        // }elseif($pay_type=="kj"){
+        //     //银联钱包
+        //     $paytype='909';
+        // }elseif($pay_type=="qqs"){
+        //     $paytype='908';
+        // }elseif($pay_type=="wykj"){
+        //     $paytype='907';
+        // }else{
+        //     return;
+        // }
+	    // $sxf = $amount*0.02;
+		// $amounn = $amount-$sxf;
+        //保存充值记录
+        $userCharge = new UserCharge();
+        $userCharge->user_id = u()->id;
+        $userCharge->trade_no = u()->id . date("YmdHis") . rand(1000, 9999);
+        //不收手续费
+        // $userCharge->amount = $amounn;
+        $userCharge->amount = $amount;
+        $userCharge->charge_type = $pay_type;
+        $userCharge->charge_state = UserCharge::CHARGE_STATE_WAIT;
+        if (!$userCharge->save()) {
+            return false;
+        }
+
+        header("Content-type:text/html;charset=utf-8");
+        $data=$_POST;       //post方式获得表单提交的数据
+                      
+        $shop_id=2538;         //商户ID，商户在千应官网申请到的商户ID
+        $bank_Type=101;   //充值渠道，101表示支付宝快速到账通道
+        $bank_payMoney=$amount;     //充值金额
+        // $bank_payMoney=1;     //充值金额
+        $orderid=$userCharge->trade_no;                  //商户的订单ID，【请根据实际情况修改】
+        $callbackurl=url(['site/qynotify'], true);       //商户的回掉地址，【请根据实际情况修改】
+        $gofalse=url(['user/index'], true); 
+        // $gofalse="http://www.qianyingnet.com/pay";                    //订单二维码失效，需要重新创建订单时，跳到该页
+        $gotrue=url(['user/index'], true); //支付成功后，跳到此页面
+        $key="d80b987e9c93461fa3289db55c6e0167";                      //密钥
+        $posturl='http://www.qianyingnet.com/pay/';                   //千应api的post提交接口服务器地址
+
+        $charset="utf-8";                                              //字符集编码方式
+        $token="中文";                                                 //自定义传过来的值 千应平台会返回原值
+        $parma='uid='.$shop_id.'&type='.$bank_Type.'&m='.$bank_payMoney.'&orderid='.$orderid.'&callbackurl='.$callbackurl;     //拼接$param字符串
+        $parma_key=md5($parma . $key);                                 //md5加密
+        $PostUrl=$posturl."?".$parma."&sign=".$parma_key."&gofalse=".$gofalse."&gotrue=".$gotrue."&charset=".$charset."&token=".$token;       //生成指定网址
+
+
+        //跳转到指定网站
+        if (isset($PostUrl)) 
+        { 
+            header("Location: $PostUrl"); 
+            exit;
+        }else{
+            echo "<script type='text/javascript'>";
+            echo "window.location.href='$PostUrl'";
+            echo "</script>";	
+        };
+
+        die();
+        $shop_id= "2538";   //商户ID
+        $bank_Type=101;   //充值渠道，101表示支付宝快速到账通道
+        $pay_orderid = $userCharge->trade_no;
+        $pay_amount = $amount; //交易金额
+        // $pay_amount = '0.11'; //交易金额
+        $pay_applydate = date("Y-m-d H:i:s");  //订单时间
+        $pay_notifyurl = url(['site/qynotify'], true);
+        // $data['callbackurl'] = url(['site/qhnotify'], true);
+        $pay_callbackurl =url(['site/index'], true);
+        //10147
+        // $Md5key = 'g7k5ruhmzu071rrbryygu0f0lu2f3krx';
+        //10141
+        $gofalse="http://www.qianyingnet.com/pay";                    //订单二维码失效，需要重新创建订单时，跳到该页
+        $gotrue="http:/www.qianyingnet.com/";                         //支付成功后，跳到此页面
+        $key="d80b987e9c93461fa3289db55c6e0167";                      //密钥
+        $posturl='http://www.qianyingnet.com/pay/';                   //千应api的post提交接口服务器地址
+
+        // $parma='uid='.$shop_id.'&type='.$bank_Type.'&m='.$bank_payMoney.'&orderid='.$orderid.'&callbackurl='.$callbackurl;     //拼接$param字符串
+
+        $native = array(
+            "uid" => $shop_id,
+            "type" => $bank_Type,
+            "m" => $pay_amount,
+            "orderid" => $pay_orderid,
+            "callbackurl" => $pay_notifyurl,
+        );
+        ksort($native);
+        $md5str = "";
+        foreach ($native as $key => $val) {
+            $md5str = $md5str . $key . "=" . $val . "&";
+        }
+        $sign = strtoupper(md5($md5str . "key=" . $Md5key));
+        $native["pay_md5sign"] = $sign;
+        $native['pay_attach'] = "1234|456";
+        $native['pay_productname'] ='会员充值';
+ 
+        $data=array();
+        //表单提交
+        foreach ($native as $key => $val) {
+            // $str = $str . '<input type="hidden" name="' . $key . '" value="' . $val . '">';
+
+            $data[$key]=$val;
+        }
+ 
+        $data['tjurl']=$tjurl;
+
+        return $data;
+
+        $str = '<form id="Form1" name="Form1" method="post" action="' . $tjurl . '">';
+        foreach ($native as $key => $val) {
+            $str = $str . '<input type="hidden" name="' . $key . '" value="' . $val . '">';
+
+        }
+        $str = $str . '<input type="submit" value="提交">';
+        $str = $str . '</form>';
+        $str = $str . '<script>';
+        $str = $str . 'document.Form1.submit();';
+        $str = $str . '</script>';
+        print_r($str);
+        die();
+        return $str;
+   }
+
 
 }

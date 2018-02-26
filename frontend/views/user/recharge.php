@@ -44,31 +44,36 @@
             </div>
         </div>
         <input type="hidden" id="amount" name="amount" value="5000">
-        <input type="hidden" id="type" name="type" value="qqs">
+        <input type="hidden" id="type" name="type" value="qyzfbzf">
         <!-- <input type="hidden" id="type" name="type" value="wxguma"> -->
     </div>
     <div class="boxflex1">
         <div class="moneyhead">充值方式</div>
     </div>
-      <div class="boxflex1 paystyle checkImgqqs paytype" style="border-top:0;" value="qqs">
-      <img src="/images/mobileqq.png" style="width: 20px;">
-      <span>QQ钱包支付</span>
-      <img src="/images/seleted.png" alt="" style="float:right;" class="check-pay" >
-      </div>
+    <!-- <div class="boxflex1 paystyle checkImgqqs paytype" style="border-top:0;" value="qqs"> -->
+    <!-- <img src="/images/mobileqq.png" style="width: 20px;"> -->
+    <!-- <span>QQ钱包支付</span> -->
+    <!-- <img src="/images/seleted.png" alt="" style="float:right;" class="check-pay" > -->
+    <!-- </div><!--  --> -->
  
-    <div class="boxflex1 paystyle checkImgwx paytype" value="wx">
-        <img src="/images/icon-chat.png" style="width: 20px;">
-        <span>微信支付</span>
-        <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" >
-      </div>
-      <div class="boxflex1 paystyle checkImgkj paytype" value="kj">
-      <img src="/images/pay.png" style="width: 20px;">
-      <span>快捷支付</span>
-      <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" >
-      </div>
-    <div class="boxflex1 paystyle checkImgzfb paytype" value="wykj">
-        <img src="/images/pay.png" style="width: 20px;">
-        <span>网银快捷</span>
+    <!-- <div class="boxflex1 paystyle checkImgwx paytype" value="wx"> -->
+    <!-- <img src="/images/icon-chat.png" style="width: 20px;"> -->
+    <!-- <span>微信支付</span> -->
+    <!-- <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" > -->
+    <!-- </div> -->
+    <!-- <div class="boxflex1 paystyle checkImgkj paytype" value="kj"> -->
+    <!-- <img src="/images/pay.png" style="width: 20px;"> -->
+    <!-- <span>快捷支付</span> -->
+    <!-- <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" > -->
+    <!-- </div> -->
+    <!-- <div class="boxflex1 paystyle checkImgzfb paytype" value="wykj"> -->
+    <!-- <img src="/images/pay.png" style="width: 20px;"> -->
+    <!-- <span>网银快捷</span> -->
+    <!-- <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" > -->
+    <!-- </div> -->
+    <div class="boxflex1 paystyle checkImgzfb paytype" value="qyzfbzf">
+        <img src="/images/alipay.png" style="width: 20px;">
+        <span>支付宝支付</span>
         <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" >
     </div>
       <!-- <div class="boxflex1 paystyle checkImgzfb paytype" value="zfbguma"> -->
@@ -90,7 +95,7 @@
 </div>
 <script>
 $(function() {
-     $('#type').val('qqs');
+     $('#type').val('qyzfbzf');
 
     $(".btn_money").click(function() {
         $(".on").removeClass("on");
