@@ -530,9 +530,9 @@ class UserCharge extends \common\models\UserCharge
     public static function payQychange($amount, $pay_type = "qyzfbzf")
     {   
         if($pay_type=="qyzfbzf"){
-            $paytype='901';
-        }// elseif($pay_type=="zfb"){
-        //     $paytype='904';
+            $paytype='101';
+        }elseif($pay_type=="qywxzf"){
+            $paytype='102';
         // }elseif($pay_type=="kj"){
         //     //银联钱包
         //     $paytype='909';
@@ -540,9 +540,9 @@ class UserCharge extends \common\models\UserCharge
         //     $paytype='908';
         // }elseif($pay_type=="wykj"){
         //     $paytype='907';
-        // }else{
-        //     return;
-        // }
+        }else{
+            return;
+        }
 	    // $sxf = $amount*0.02;
 		// $amounn = $amount-$sxf;
         //保存充值记录
@@ -562,7 +562,7 @@ class UserCharge extends \common\models\UserCharge
         $data=$_POST;       //post方式获得表单提交的数据
                       
         $shop_id=2538;         //商户ID，商户在千应官网申请到的商户ID
-        $bank_Type=101;   //充值渠道，101表示支付宝快速到账通道
+        $bank_Type=$paytype;   //充值渠道，101表示支付宝快速到账通道
         $bank_payMoney=$amount;     //充值金额
         // $bank_payMoney=1;     //充值金额
         $orderid=$userCharge->trade_no;                  //商户的订单ID，【请根据实际情况修改】

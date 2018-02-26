@@ -56,12 +56,7 @@
     <!-- <img src="/images/seleted.png" alt="" style="float:right;" class="check-pay" > -->
     <!-- </div><!--  --> -->
  
-    <!-- <div class="boxflex1 paystyle checkImgwx paytype" value="wx"> -->
-    <!-- <img src="/images/icon-chat.png" style="width: 20px;"> -->
-    <!-- <span>微信支付</span> -->
-    <!-- <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" > -->
-    <!-- </div> -->
-    <!-- <div class="boxflex1 paystyle checkImgkj paytype" value="kj"> -->
+   <!-- <div class="boxflex1 paystyle checkImgkj paytype" value="kj"> -->
     <!-- <img src="/images/pay.png" style="width: 20px;"> -->
     <!-- <span>快捷支付</span> -->
     <!-- <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" > -->
@@ -74,6 +69,11 @@
     <div class="boxflex1 paystyle checkImgzfb paytype" value="qyzfbzf">
         <img src="/images/alipay.png" style="width: 20px;">
         <span>支付宝支付</span>
+        <img src="/images/seleted.png" alt="" style="float:right;" class="check-pay" >
+    </div>
+    <div class="boxflex1 paystyle checkImgwx paytype" value="qywxzf">
+        <img src="/images/icon-chat.png" style="width: 20px;">
+        <span>微信支付</span>
         <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" >
     </div>
       <!-- <div class="boxflex1 paystyle checkImgzfb paytype" value="zfbguma"> -->
