@@ -126,6 +126,10 @@ class SiteController extends \frontend\components\Controller
     public function actionAjaxBuyState()
     {
         $data = post('data');
+        //聚乙烯周末休市
+        if ((date('w') == 0 || date('w') == 6) && $data['pid']== 20) {
+            return error('此产品周末休市！');
+        }
         if (strlen(u()->password) <= 1) {
             return $this->redirect(['site/login']);
             // return success(url(['site/setPassword']), -1);

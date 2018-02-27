@@ -183,8 +183,8 @@
                 </div>
             </div>
 
-            <div class="deal-btn-wrap <?= $disClass ?>">
-                <div class="table">
+            <div class="deal-btn-wrap <?= $disClass ?>" >
+                <div class="table" style="display:none;">
                     <div class="table-cell btnrise-wrap buyProduct" data-type="1">
                         <!-- <label><span><img src="/images/icon-up.png" alt="" style="margin-top: -8px;"></span></label> -->
                         <label><span>买入</span></label>
