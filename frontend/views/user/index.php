@@ -1,6 +1,8 @@
 <?php $this->regCss('geren.css') ?>
 <?php $this->regCss('jiaoyi.css') ?>
+<?php //$this->regCss('bootstrap.min.css') ?>
 <?php use frontend\models\User; ?>
+<?php use yii\helpers\Url;  ?>
         <!--个人中心-->
         <div class="personal">
             <div class="per_top">
@@ -92,8 +94,9 @@
                 </ul>
             </div>
         </div>
-        <div class="myContent">
-        
+        <div class="myContent" style=" text-align:center">
+
+            <a href="<?= Url::to(['site/logout']); ?>" style="font-size: 1.2em;color:white;background: #e6262e;text-align: center ; width:250px; display:inline-block; height:38px; line-height:38px; overflow:hidden;border:1px solid #e6262e; margin:0 auto;border-radius: 20px;" class="btn btn-primary btn-lg active" role="button">退 出 登 陆</a>
         </div>
 
         
