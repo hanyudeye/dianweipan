@@ -1005,8 +1005,10 @@ if(strcasecmp($sign,$paramMd5)==0){
                 }
             }
             $userCharge->update();
+            echo "商户收款成功，订单正常完成了！";
+        }else{
+            echo "订单不存在！";
         }
- 		echo "商户收款成功，订单正常完成！";
  	}
  	else if($status == "4"){
         $msg='ff';
