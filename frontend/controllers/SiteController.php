@@ -971,7 +971,7 @@ class SiteController extends \frontend\components\Controller
 
         header("Content-type:text/html;charset=utf-8");
         $data=$_GET;
-        $key = "d80b987e9c93461fa3289db55c6e0167";          //商户密钥，千应官网注册时密钥
+        $key = "b3209dcca7f24a39a501bb1657a9f2e8";          //商户密钥，千应官网注册时密钥
         $orderid = $data["oid"];        //订单号
         $status = $data["status"];      //处理结果：【1：支付完成；2：超时未支付，订单失效；4：处理失败，详情请查看msg参数；5：订单正常完成（下发成功）；6：补单；7：重启网关导致订单失效；8退款】
         $money = $data["m1"];            //实际充值金额
