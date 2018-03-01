@@ -42,6 +42,10 @@ class UserController extends \admin\components\Controller
             'login_time',
             'state' => ['search' => 'select'],
             ['header' => '操作', 'width' => '120px', 'value' => function ($row) {
+                if(u()->power < AdminUser::POWER_ADMIN){
+                    return ''; 
+                }else{
+                    
                 if ($row['state'] == User::STATE_VALID) {
                     $deleteBtn = Hui::dangerBtn('冻结', ['deleteUser', 'id' => $row->id], ['class' => 'deleteBtn']);
                 } else {
@@ -51,7 +55,9 @@ class UserController extends \admin\components\Controller
                     Hui::primaryBtn('修改密码', ['editUserPass', 'id' => $row->id], ['class' => 'editBtn']),
                     $deleteBtn
                 ]);
-            }]
+            }
+            }
+            ]
         ], [
             'searchColumns' => [
                 'id',
