@@ -20,9 +20,12 @@ class ChuanglanSMS {
 	//创蓝短信余额查询接口URL, 如无必要，该参数可不用修改
 	const API_BALANCE_QUERY_URL='http://sms.253.com/msg/balance';
 
-	const API_ACCOUNT='zhipin';//创蓝账号 替换成你自己的账号
+	// const API_ACCOUNT='zhipin';//创蓝账号 替换成你自己的账号
+	const API_ACCOUNT='quanminweitou';//创蓝账号 替换成你自己的账号
 
-	const API_PASSWORD='b3cf2d05e90983b262207655dd65dce7';//创蓝密码 替换成你自己的密码
+	// const API_PASSWORD='b3cf2d05e90983b262207655dd65dce7';//创蓝密码 替换成你自己的密码
+    //帐号密码对应的md5加密
+	const API_PASSWORD='e10adc3949ba59abbe56e057f20f883e';//创蓝密码 替换成你自己的密码
 
 	/**
 	 * 发送短信
