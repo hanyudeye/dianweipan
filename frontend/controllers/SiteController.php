@@ -349,6 +349,7 @@ class SiteController extends \frontend\components\Controller
 
         $sms = new \ChuanglanSMS();
         $result = $sms->sendSMS($mobile, '【'.config('web_sign', '夕秀软件').'】您好，您的验证码是' . $randomNum);
+
         $result = $sms->execResult($result);
         // $randomNum = 1234;
         // $result[1] = 0;
