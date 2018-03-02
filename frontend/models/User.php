@@ -96,7 +96,7 @@ class User extends \common\models\User
         }
         $identity = $this->getIdentity();
         if (!$identity || !$identity->validatePassword($this->password)) {
-            $this->addError('password', '用户名或密码错误');
+            $this->addError('password', '用户被冻结或密码错误');
             return false;
         } else {
 
@@ -109,7 +109,7 @@ class User extends \common\models\User
         if ($this->_identity === null) {
             //这里是微信验证，不用了open_id了
             // $this->_identity = WebUser::find()->where(['open_id' => $this->open_id])->one();
-            $this->_identity = WebUser::find()->where(['username' => $this->username])->one();
+            $this->_identity = WebUser::find()->where(['username' => $this->username,'state' =>1])->one();
 
             // session('userinfo', $info, 144000);
         }
