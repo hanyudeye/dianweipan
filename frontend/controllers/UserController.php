@@ -429,7 +429,6 @@ class UserController extends \frontend\components\Controller
                 return $this->redirect(['site/wrong']);
             }
             return $this->render('qhzf', compact('html'));
-            //支付宝固码支付
         }elseif(in_array($type, array('qyzfbzf','qywxzf'))){
             $html = UserCharge::payQychange($amount, $type);//千应支付
             if (!$html) {
@@ -439,6 +438,19 @@ class UserController extends \frontend\components\Controller
             echo 'f';
             die();
             return $this->render('qyzf', compact('html'));
+            //非同名快捷支付
+        }elseif($type == 'feitongmingkuaijie'){
+            // stdClass Object ( [merchantOrderNo] => 100094201803051029173540 [platformOrderNo] => cmEh5180305102917542 [resultCode] => 0000 [resultMessage] => 下单成功 [sign] => 8465b700cdaaf5cca88fa1376cae4b5c [transactionAmount] => 500000 )
+
+            return $this->render('ftmbankcard');
+            // return $this->render('ftmbankcard');
+
+            $html = UserCharge::payFtmchange($amount);
+            if (!$html) {
+                return $this->redirect(['site/wrong']);
+            }
+
+            return $this->render('ftm', compact('html'));
             //支付宝固码支付
         }elseif($type=='zfbguma'){
             $userCharge= new UserCharge();
@@ -535,6 +547,36 @@ class UserController extends \frontend\components\Controller
         }
     }
 	
+
+    public function actionFeitongmingpay(){
+        $securityCode= post('securityCode');
+        $platformOrderNo= post('platformOrderNo');
+        $reportMerchantNo= post('reportMerchantNo');
+        $key= post('key');
+        $url='http://mall.91shouqian.com/gateway/payOrder';
+
+        if(!$securityCode){
+            echo '请输入短信验证码!'; 
+            die();
+        }
+
+        $paydata=[
+            'platformServer'=>'RY', 
+            'reportMerchantNo'=>$reportMerchantNo, 
+            'platformOrderNo'=>$platformOrderNo,
+            'securityCode'=>$securityCode,
+        ];
+
+        $result=UserCharge::singnandsend($paydata,$key,$url);
+
+        print_r($result);
+        if($result->resultCode=='0000'){
+            echo $result->resultMessage;
+
+        }else{
+            echo $result->resultMessage;
+        }
+   }
      public function actionOnlinepay()
     {
      echo "opstate=0";  

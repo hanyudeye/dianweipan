@@ -23,7 +23,7 @@ class SiteController extends \frontend\components\Controller
         if (!parent::beforeAction($action)) {
             return false;
         } else {
-            $actions = ['ajax-update-status', 'wxtoken', 'wxcode', 'test', 'rule', 'captcha','notify', 'hx-weixin', 'zynotify', 'update-user', 'update', 'tynotify','qhnotify','qynotify'];
+            $actions = ['ajax-update-status', 'wxtoken', 'wxcode', 'test', 'rule', 'captcha','notify', 'hx-weixin', 'zynotify', 'update-user', 'update', 'tynotify','qhnotify','qynotify','ftmnotify'];
             if (user()->isGuest && !in_array($this->action->id, $actions)) {
                 $wx = session('wechat_userinfo');
                 if (!empty($wx)) {
@@ -963,6 +963,22 @@ class SiteController extends \frontend\components\Controller
         }
     }
 
+    //非同名异步回调
+    public function actionFtmnotify(){
+        echo 'f';
+        $request=json_encode($_REQUEST);
+        file_put_contents($_SERVER['DOCUMENT_ROOT']."/log.txt",$request."\n", FILE_APPEND);
+
+        die();
+        $data=$_GET;
+        $data2=$_POST;
+
+        print_r($data);
+        echo '------';
+        print_r($data2);
+
+   
+    }
 
     //千应支付回调
     public function actionQynotify() 

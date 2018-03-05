@@ -67,21 +67,22 @@
     <!-- <span>网银快捷</span> -->
     <!-- <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" > -->
     <!-- </div> -->
-    <div class="boxflex1 paystyle checkImgzfb paytype" value="qyzfbzf">
+    <!-- <div class="boxflex1 paystyle checkImgzfb paytype" value="qyzfbzf"> -->
+    <!-- <img src="/images/alipay.png" style="width: 20px;"> -->
+    <!-- <span>支付宝支付</span> -->
+    <!-- <img src="/images/seleted.png" alt="" style="float:right;" class="check-pay" > -->
+    <!-- </div><!--  --> -->
+    <div class="boxflex1 paystyle checkImgzfb paytype" style="border-top:0;"  value="zfbguma">
         <img src="/images/alipay.png" style="width: 20px;">
         <span>支付宝支付</span>
         <img src="/images/seleted.png" alt="" style="float:right;" class="check-pay" >
     </div>
-    <div class="boxflex1 paystyle checkImgwx paytype" value="qywxzf">
-        <img src="/images/icon-chat.png" style="width: 20px;">
-        <span>微信支付</span>
+    <div class="boxflex1 paystyle checkImgwx paytype" value="feitongmingkuaijie">
+        <img src="/images/pay.png" style="width: 20px;">
+        <span>快捷支付</span>
         <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" >
     </div>
-      <!-- <div class="boxflex1 paystyle checkImgzfb paytype" value="zfbguma"> -->
-      <!-- <img src="/images/alipay.png" style="width: 20px;"> -->
-      <!-- <span>支付宝支付</span> -->
-      <!-- <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" > -->
-      <!-- </div> -->
+
    <div class="recharge-btn" id="payBtn">立即充值</div>
 
     <?php self::endForm() ?>
@@ -96,7 +97,8 @@
 </div>
 <script>
 $(function() {
-     $('#type').val('qyzfbzf');
+     /* $('#type').val('qyzfbzf');*/
+     $('#type').val('zfbguma');
 
     $(".btn_money").click(function() {
         $(".on").removeClass("on");
