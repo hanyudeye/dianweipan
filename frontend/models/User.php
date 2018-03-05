@@ -25,7 +25,7 @@ class User extends \common\models\User
             //手机号，用户名唯一
             [['mobile'], 'unique', 'message' => '手机号已经注册。','on' => ['register']],
             // 注册场景的基础验证
-            [['cfmPassword', 'verifyCode'], 'required', 'on' => ['register', 'forget']],
+            [['cfmPassword','nickname', 'verifyCode'], 'required', 'on' => ['register', 'forget']],
             //第一次填写手机号
             [['mobile', 'verifyCode'], 'required', 'on' => ['setMobile']],
             // 注册场景密码和确认密码的验证
@@ -47,7 +47,7 @@ class User extends \common\models\User
     public function scenarios()
     {
         return array_merge(parent::scenarios(), [
-            'register' => ['username', 'password', 'cfmPassword', 'mobile', 'verifyCode'],
+            'register' => ['nickname','username', 'password', 'cfmPassword', 'mobile', 'verifyCode'],
             'login' => ['username', 'password', 'rememberMe'],
             'password' => ['oldPassword', 'newPassword', 'cfmPassword'],
             'forget' => ['password', 'cfmPassword', 'verifyCode'],
@@ -85,6 +85,10 @@ class User extends \common\models\User
 
     protected function beforeLogin()
     {
+        if (!$this->nickname) {
+            $this->addError('nickname', '请输入昵称');
+        }
+ 
         if (!$this->username) {
             $this->addError('username', '请输入用户名');
         }

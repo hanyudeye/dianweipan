@@ -423,6 +423,7 @@ class SiteController extends \frontend\components\Controller
                 break;
         }
 
+
         $response = Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
 
