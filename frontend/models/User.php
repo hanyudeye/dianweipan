@@ -85,9 +85,9 @@ class User extends \common\models\User
 
     protected function beforeLogin()
     {
-        if (!$this->nickname) {
-            $this->addError('nickname', '请输入昵称');
-        }
+        // if (!$this->nickname) {
+        //     $this->addError('nickname', '请输入昵称');
+        // }
  
         if (!$this->username) {
             $this->addError('username', '请输入用户名');
