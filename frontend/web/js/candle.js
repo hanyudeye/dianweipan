@@ -40,6 +40,8 @@ $(function () {
     
     $.get($("#getStockDataUrl").val(), {id: $("#productId").val()}, function (msg) {
         data[-1] = transData(msg);
+        // console.log('ffff');
+        // console.log(data);
         getAreaStock(data);
         $.get($("#getStockDataUrl").val(), {id: $("#productId").val(), unit: 'day'}, function (msg) {
             data[dayUnit] = transData(msg);
@@ -380,6 +382,14 @@ $(function () {
     }
 
     function getKlineStock(data, unit) {
+var groupingUnits = [[
+            'minute',  
+            [2]     
+        ], [
+            'day',
+            [1, 2, 3, 4, 6]
+        ]];
+
         var circle;
         switch (unit) {
             case 0:
@@ -427,7 +437,10 @@ $(function () {
                 }
             }
         }
-        //console.log(data[unit]);
+        //注释
+        // console.log(data);
+        // index 是 2 5 -1
+
         oldData = data[unit];
         x = oldData.length;
         $('#kContainer').highcharts('StockChart', {
@@ -456,10 +469,13 @@ $(function () {
                     type: 'minute',
                     count: 20,
                 }, {
-                    type: 'hour',
+                    // type: 'hour',
+                    type: 'minute',
                     count: 1.5,
+                    // count: 60,
                 }, {
                     type: 'hour',
+                    //15分钟k线
                     count: 5,
                 }, {
                     type: 'hour',
@@ -470,6 +486,7 @@ $(function () {
                 }, {
                     type: 'day',
                     count: 7,
+                    // count: 2,
                 }],
                 buttonTheme: {
                     style: {
@@ -488,7 +505,7 @@ $(function () {
                 enabled: false
             },
             navigator: {
-                enabled: false
+                // enabled: false
             },
             credits:{
                 enabled: false
@@ -503,6 +520,9 @@ $(function () {
                             return num;
                         }
                     }
+
+                    //unit 星期几
+                    // console.log(unit);
                     if (unit == dayUnit) {
                         date = Highcharts.dateFormat('%m-%d', this.x);
                     } else if (circle == 1) {
@@ -538,6 +558,7 @@ $(function () {
             xAxis: {
                 labels: {
                     formatter: function () {
+                        //这里是绘制x轴的地方, wuming
                         return Highcharts.dateFormat(unit == dayUnit ? '%m-%d' : '%H:%M', this.value);
                     },
                 }
@@ -555,7 +576,8 @@ $(function () {
                 name: $("#futuresName").val(),
                 data: data[unit],
                 dataGrouping: {
-                    enabled: false
+                    units: groupingUnits, 
+                  // enabled: false
                 },
                 tooltip: {
                     valueDecimals: 2

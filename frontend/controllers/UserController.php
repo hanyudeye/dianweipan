@@ -105,8 +105,8 @@ class UserController extends \frontend\components\Controller
                 return error('取现金额必须是数字');
             }
 
-            if ($userWithdraw->amount <= 2) {
-                return error('取现不能小于等于2元！');
+            if ($userWithdraw->amount < 100) {
+                return error('取现金额不能少于100！');
             }
 
             if ($userWithdraw->amount < 0 || $userWithdraw->amount > ($user->account - $user->blocked_account)) {
