@@ -25,7 +25,7 @@ class User extends \common\models\User
             //手机号，用户名唯一
             [['mobile'], 'unique', 'message' => '手机号已经注册。','on' => ['register']],
             // 注册场景的基础验证
-            [['cfmPassword', 'verifyCode'], 'required', 'on' => ['register', 'forget']],
+            [['cfmPassword','nickname', 'verifyCode'], 'required', 'on' => ['register', 'forget']],
             //第一次填写手机号
             [['mobile', 'verifyCode'], 'required', 'on' => ['setMobile']],
             // 注册场景密码和确认密码的验证
@@ -47,7 +47,7 @@ class User extends \common\models\User
     public function scenarios()
     {
         return array_merge(parent::scenarios(), [
-            'register' => ['username', 'password', 'cfmPassword', 'mobile', 'verifyCode'],
+            'register' => ['nickname','username', 'password', 'cfmPassword', 'mobile', 'verifyCode'],
             'login' => ['username', 'password', 'rememberMe'],
             'password' => ['oldPassword', 'newPassword', 'cfmPassword'],
             'forget' => ['password', 'cfmPassword', 'verifyCode'],
@@ -85,6 +85,10 @@ class User extends \common\models\User
 
     protected function beforeLogin()
     {
+        // if (!$this->nickname) {
+        //     $this->addError('nickname', '请输入昵称');
+        // }
+ 
         if (!$this->username) {
             $this->addError('username', '请输入用户名');
         }
@@ -96,7 +100,7 @@ class User extends \common\models\User
         }
         $identity = $this->getIdentity();
         if (!$identity || !$identity->validatePassword($this->password)) {
-            $this->addError('password', '用户名或密码错误');
+            $this->addError('password', '用户被冻结或密码错误');
             return false;
         } else {
 
@@ -109,7 +113,7 @@ class User extends \common\models\User
         if ($this->_identity === null) {
             //这里是微信验证，不用了open_id了
             // $this->_identity = WebUser::find()->where(['open_id' => $this->open_id])->one();
-            $this->_identity = WebUser::find()->where(['username' => $this->username])->one();
+            $this->_identity = WebUser::find()->where(['username' => $this->username,'state' =>1])->one();
 
             // session('userinfo', $info, 144000);
         }

@@ -13,6 +13,15 @@
         <div class="row">
             <div class="login_input">
                 <div class="type_box login_type_ls mg_b">
+                    <div class="type_name"><img src="/images/cqd_4.png" width="18" height="18"></div>
+                    <div class="input_box">
+                        <?= $form->field($model, 'nickname')->textInput(['placeholder' => '昵称'])  ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="login_input">
+                <div class="type_box login_type_ls mg_b">
                     <div class="type_name"><img src="/images/phone.png" width="18" height="18"></div>
                     <div class="input_box">
                         <?= $form->field($model, 'mobile')->textInput(['placeholder' => '手机号'])  ?>
