@@ -77,11 +77,11 @@
         <span>支付宝支付</span>
         <img src="/images/seleted.png" alt="" style="float:right;" class="check-pay" >
     </div>
-    <div class="boxflex1 paystyle checkImgwx paytype" value="feitongmingkuaijie">
-        <img src="/images/pay.png" style="width: 20px;">
-        <span>快捷支付</span>
-        <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" >
-    </div>
+    <!-- <div class="boxflex1 paystyle checkImgwx paytype" value="feitongmingkuaijie"> -->
+    <!-- <img src="/images/pay.png" style="width: 20px;"> -->
+    <!-- <span>快捷支付</span> -->
+    <!-- <img src="/images/notseleted.png" alt="" style="float:right;" class="check-pay" > -->
+    <!-- </div><!--  --> -->
 
    <div class="recharge-btn" id="payBtn">立即充值</div>
 
