@@ -14,6 +14,7 @@ $(function () {
         var $li = $(this),
             $a = $li.find('a'),
             unit = $a.data('unit');
+        // console.log(unit);
         $li.addClass('active').siblings().removeClass('active');
         if (unit == -1) {
             $("#areaContainer").show();
@@ -64,6 +65,8 @@ $(function () {
         //是否属于期货
         var data = {};
         data.json = $("#jsonData").html();
+        //产品名称
+        // console.log(data.json);
         data.pid = $("#productId").val();
         if ($('.selectProcut>li .price>span').html() == '休市') {
             return false;
@@ -97,10 +100,7 @@ $(function () {
                             setplotTop(chart,price);
                             //chart.reflow();
                             chart.redraw();
-
-                            //alert(123);
                         } else {
-                            //alert(123);
                             flag = 1;
                             var minVal = chart.yAxis.min;
                             var maxVal = chart.yAxis.max;
@@ -111,10 +111,9 @@ $(function () {
                             }
 
                             chart.addPoint([x, price], true, true);
-                            //alert(x  +  "*" + price);
+                            // alert(x  +  "*" + price);
                             setplotTop(chart,price);
                             recMin = minute;
-                            //alert(321);
                         }
                     }
                 // }
@@ -151,7 +150,7 @@ $(function () {
             }
             /////////////////////
 
-            
+           //最后的蜡烛条，跳动的，吴明 
             setTimeout(function () {
                 getPrice(chart);
             }, 2000);
@@ -420,13 +419,15 @@ var groupingUnits = [[
             for (var key in data[-1]) {
                 end = data[-1][key][0];
                 if (end - start >= diff) {
+                    // if (end - start >= 1000*60*5) {
                     sub[4] = data[-1][key - 1][4];
                     data[unit].push(sub);
                     start = data[-1][key][0];
                     sub = [0, 0, 0, 999999, 0];
+
                 }
                 if (end == start) {
-                    sub[0] = data[-1][key][0];
+                    sub[0] = data[-1][key][0] + diff + 0;
                     sub[1] = data[-1][key][1];
                 }
                 if (sub[2] < data[-1][key][2]) {
@@ -436,6 +437,8 @@ var groupingUnits = [[
                     sub[3] = data[-1][key][3];
                 }
             }
+
+            // console.log(data[unit]);
         }
         //注释
         // console.log(data);
@@ -465,13 +468,16 @@ var groupingUnits = [[
                 },
             },
             rangeSelector: {
+                //这段没用
+                selected: 1,
+
                 buttons: [{
                     type: 'minute',
                     count: 20,
                 }, {
                     // type: 'hour',
-                    type: 'minute',
-                    count: 1.5,
+                    type: 'day',
+                    count: 2,
                     // count: 60,
                 }, {
                     type: 'hour',
@@ -523,6 +529,7 @@ var groupingUnits = [[
 
                     //unit 星期几
                     // console.log(unit);
+                    // console.log(data[unit]);
                     if (unit == dayUnit) {
                         date = Highcharts.dateFormat('%m-%d', this.x);
                     } else if (circle == 1) {
