@@ -28,3 +28,6 @@ composer.phar
 phpunit.phar
 # local phpunit config
 /phpunit.xml
+
+frontend/web/price.json
+wifiob_cn_20171120_110218.sql
