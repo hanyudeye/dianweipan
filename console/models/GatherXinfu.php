@@ -73,6 +73,7 @@ class GatherXinfu extends Gather
         $this->productList = array_merge($this->productList, $products);
         foreach ($this->productList as $tableName => $info) {
             if (is_int($tableName)) {
+                //周末休市
                 // if ((date('w') == 0 && date('G') > 5) || (date('G') < 5 && date('w') == 1)) {
                 //     return false;
                 // }
@@ -104,7 +105,6 @@ class GatherXinfu extends Gather
                 }
                 $price += mt_rand($param['start_point'], $param['end_point']);
                 session('initData' . $info['table_name'], $price);
-
                 //插入开盘价和昨日收盘价
                 $nowTime = date('Y-m-d 09:00:00', time());
                 $insertOpen = strtotime($nowTime);
@@ -133,6 +133,9 @@ class GatherXinfu extends Gather
                 }
                 $data['price'] = $price;
                 $data['time'] = date('Y-m-d H:i:s', time());
+                //这里插入蜜蜡什么的数据
+// echo                $info['table_name'];
+// print_r($data);
                 $this->insert($info['table_name'], $data);
             } else {
                 // 每个品类，先采集最新价格
@@ -171,6 +174,8 @@ class GatherXinfu extends Gather
                         'diff_rate' => $data->percent,
                         'time' => date('Y-m-d H:i:s', strtotime($time))
                     ];
+                    // echo $tableName;
+                    // echo $info;
                     $this->insert($tableName, $info);
                 }
             }

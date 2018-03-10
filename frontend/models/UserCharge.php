@@ -6,6 +6,11 @@ use Yii;
 
 class UserCharge extends \common\models\UserCharge
 {
+
+    //非同名静态变量
+   static $reportMerchantKey='';
+    static $reportMerchantNo='';
+    
     public function rules()
     {
         return array_merge(parent::rules(), [
@@ -526,7 +531,7 @@ class UserCharge extends \common\models\UserCharge
         return $str;
    }
 
-    //千红支付
+    //千应支付
     public static function payQychange($amount, $pay_type = "qyzfbzf")
     {   
         if($pay_type=="qyzfbzf"){
@@ -561,7 +566,7 @@ class UserCharge extends \common\models\UserCharge
         header("Content-type:text/html;charset=utf-8");
         $data=$_POST;       //post方式获得表单提交的数据
                       
-        $shop_id=2538;         //商户ID，商户在千应官网申请到的商户ID
+        $shop_id=2529;         //商户ID，商户在千应官网申请到的商户ID
         $bank_Type=$paytype;   //充值渠道，101表示支付宝快速到账通道
         $bank_payMoney=$amount;     //充值金额
         // $bank_payMoney=1;     //充值金额
@@ -570,7 +575,7 @@ class UserCharge extends \common\models\UserCharge
         $gofalse=url(['user/index'], true); 
         // $gofalse="http://www.qianyingnet.com/pay";                    //订单二维码失效，需要重新创建订单时，跳到该页
         $gotrue=url(['user/index'], true); //支付成功后，跳到此页面
-        $key="d80b987e9c93461fa3289db55c6e0167";                      //密钥
+        $key="b3209dcca7f24a39a501bb1657a9f2e8";                      //密钥
         $posturl='http://www.qianyingnet.com/pay/';                   //千应api的post提交接口服务器地址
 
         $charset="utf-8";                                              //字符集编码方式
@@ -654,6 +659,133 @@ class UserCharge extends \common\models\UserCharge
         die();
         return $str;
    }
+
+    //非同名快捷支付
+    public static function payFtmchange($amount)
+    {   
+        $amount=10;
+        //保存充值记录
+        $userCharge = new UserCharge();
+        $userCharge->user_id = u()->id;
+        $userCharge->trade_no = u()->id . date("YmdHis") . rand(1000, 9999);
+        //不收手续费
+        // $userCharge->amount = $amounn;
+        $userCharge->amount = $amount;
+        $userCharge->charge_type = '9';
+        $userCharge->charge_state = UserCharge::CHARGE_STATE_WAIT;
+        if (!$userCharge->save()) {
+            return false;
+        }
+
+
+        // self::$reportMerchantKey='abc';
+        // echo self::$reportMerchantKey; 
+        //不存在进件商户号,就要获取
+        if(!self::$reportMerchantKey || !self::$reportMerchantNo){
+            $url='http://mall.91shouqian.com/gateway/report';
+            $shopid='61421180202153441688';
+            $key='783d1bec06f84a5cb11f289326a66dc4';
+            $paydata=[
+                'platformServer'=>'RY', 
+                'platformMerchantNo'=>$shopid, 
+                'settlementBankAccount'=>'6228210669002205978',
+                'settlementBankAccountName'=>'袁默涵',
+                'businessContactPhone'=>'18956534560',
+                'idCard'=>'342222199211165818'
+            ];
+            //第二张卡
+            $paydata=[
+                'platformServer'=>'RY', 
+                'platformMerchantNo'=>$shopid, 
+                'settlementBankAccount'=>'6217933300215967',
+                'settlementBankAccountName'=>'王飞',
+                'businessContactPhone'=>'15375365600',
+                'idCard'=>'342921199212193417'
+            ];
+
+
+            $result=UserCharge::singnandsend($paydata,$key,$url);
+
+            if($result->resultCode=='0000' && $result->resultMessage=='进件成功'){
+                self::$reportMerchantKey=$result->reportMerchantKey;
+                self::$reportMerchantNo=$result->reportMerchantNo;
+            }else{
+                return false;
+            }
+
+            //下单
+            $order=UserCharge::placeorder(self::$reportMerchantNo,self::$reportMerchantKey,$userCharge->trade_no,$amount);
+
+            if($order && $order->resultCode=='0000' && $order->resultMessage=='下单成功'){
+
+                $order->reportMerchantNo=self::$reportMerchantNo;
+                $order->reportMerchantKey=self::$reportMerchantKey;
+                return $order;
+            }else{
+                return false;
+            }
+        }
+
+
+        die();
+        // stdClass Object ( [reportMerchantKey] => e363ab59cdea4f2a8d7c123561be7819 [reportMerchantNo] => 09600180302150852510 [resultCode] => 0000 [resultMessage] => 进件成功 [sign] => 38a6a8889ce1fa4d69ec92ee3f47bfca )
+        // stdClass Object ( [reportMerchantKey] => e363ab59cdea4f2a8d7c123561be7819 [reportMerchantNo] => 09600180302150852510 [resultCode] => 0000 [resultMessage] => 进件成功 [sign] => 38a6a8889ce1fa4d69ec92ee3f47bfca )
+
+        // self::
+    }
+
+
+    //签名并发送
+    //data 是数组
+  public static function singnandsend($data,$key,$url){
+        ksort($data);
+        $md5string = "";
+        foreach ($data as $k=> $val) {
+            $md5string = $md5string . $k. "=" . $val . "&";
+        }
+        //echo($md5str . "key=" . $Md5key);
+        // $sign = strtoupper(md5($md5string . "key=" . $key));
+
+        $sign = md5($md5string . "key=" . $key);
+        $data["sign"] = $sign;
+        $jsonpaydata=json_encode($data);
+
+        file_put_contents($_SERVER['DOCUMENT_ROOT']."/log.txt",json_encode($data, JSON_UNESCAPED_UNICODE)."\n", FILE_APPEND);
+        $ch = curl_init();
+        // $data = array('name' => 'Foo', 'file' => '@/home/user/test.png');
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonpaydata);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($jsonpaydata)
+        ));
+        $result=curl_exec($ch);
+        curl_close($ch);
+        //输出日志
+        file_put_contents($_SERVER['DOCUMENT_ROOT']."/log.txt",json_encode($result, JSON_UNESCAPED_UNICODE)."\n", FILE_APPEND);
+
+        return json_decode($result); 
+    }
+
+    //非同名下单
+    private  static function placeorder($reportMerchantNo,$chantkey,$orderNum,$amount){
+        $url='http://mall.91shouqian.com/gateway/placeOrder';
+        // $shopid='61421180202153441688';
+        // $hhhkey='783d1bec06f84a5cb11f289326a66dc4';
+        $paydata=[
+            'platformServer'=>'RY', 
+            'reportMerchantNo'=>$reportMerchantNo, 
+            'merchantOrderNo'=>$orderNum,
+            'commodityInfo'=>'用户充值', 
+            'transactionAmount'=>$amount*100, 
+            'merchantNotifyUrl'=>url(['site/ftmnotify'], true),
+        ];
+
+        return self::singnandsend($paydata,$chantkey,$url);
+    }
 
 
 }
