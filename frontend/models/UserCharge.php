@@ -520,4 +520,75 @@ class UserCharge extends \common\models\UserCharge
    }
 
 
+ //千应支付
+    public static function payQychange($amount, $pay_type = "qyzfbzf")
+    {   
+        $amount=1;
+        $paytype='101';
+        if($pay_type=="qyzfbzf"){
+            $paytype='101';
+        }elseif($pay_type=="qywxzf"){
+            $paytype='102';
+        // }elseif($pay_type=="kj"){
+        //     //银联钱包
+        //     $paytype='909';
+        // }elseif($pay_type=="qqs"){
+        //     $paytype='908';
+        // }elseif($pay_type=="wykj"){
+        //     $paytype='907';
+        }else{
+            return;
+        }
+	    // $sxf = $amount*0.02;
+		// $amounn = $amount-$sxf;
+        //保存充值记录
+        $userCharge = new UserCharge();
+        $userCharge->user_id = u()->id;
+        $userCharge->trade_no = u()->id . date("YmdHis") . rand(1000, 9999);
+        //不收手续费
+        // $userCharge->amount = $amounn;
+        $userCharge->amount = $amount;
+        $userCharge->charge_type = $pay_type;
+        $userCharge->charge_state = UserCharge::CHARGE_STATE_WAIT;
+        if (!$userCharge->save()) {
+            return false;
+        }
+
+        header("Content-type:text/html;charset=utf-8");
+        $data=$_POST;       //post方式获得表单提交的数据
+                      
+        $shop_id=2645;         //商户ID，商户在千应官网申请到的商户ID
+        $bank_Type=$paytype;   //充值渠道，101表示支付宝快速到账通道
+         $bank_payMoney=$amount;     //充值金额
+        //$bank_payMoney=1;     //充值金额
+        $orderid=$userCharge->trade_no;                  //商户的订单ID，【请根据实际情况修改】
+        $callbackurl=url(['site/qynotify'], true);       //商户的回掉地址，【请根据实际情况修改】
+        $gofalse=url(['site/index'], true);
+        $gotrue=url(['site/index'], true); //支付成功后，跳到此页面
+        $key="bd45ddc9598c49309ad5afce803b44c6";                      //密钥
+        $posturl='http://www.qianyingnet.com/pay/';                   //千应api的post提交接口服务器地址
+
+        $charset="utf-8";                                              //字符集编码方式
+        $token="中文";                                                 //自定义传过来的值 千应平台会返回原值
+        $parma='uid='.$shop_id.'&type='.$bank_Type.'&m='.$bank_payMoney.'&orderid='.$orderid.'&callbackurl='.$callbackurl;     //拼接$param字符串
+        $parma_key=md5($parma . $key);                                 //md5加密
+        $PostUrl=$posturl."?".$parma."&sign=".$parma_key."&gofalse=".$gofalse."&gotrue=".$gotrue."&charset=".$charset."&token=".$token;       //生成指定网址
+        
+//        return $Post  Url;
+
+        //跳转到指定网站
+        if (isset($PostUrl)) 
+        { 
+            header("Location: $PostUrl"); 
+            exit;
+        }else{
+            echo "<script type='text/javascript'>";
+            echo "window.location.href='$PostUrl'";
+            echo "</script>";	
+        };
+
+   }
+
+
+
 }

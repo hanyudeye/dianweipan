@@ -424,13 +424,34 @@ class UserController extends \frontend\components\Controller
         // $amount = 3.01;
         $type= post('type');
 
-        if(in_array($type, array('wx','kj','zfb','qqs','wykj'))){
+        if(in_array($type, array('kj','zfb','qqs','wykj'))){
             $html = UserCharge::payQhchange($amount, $type);//千红支付
             if (!$html) {
                 return $this->redirect(['site/wrong']);
             }
             return $this->render('qhzf', compact('html'));
+        }elseif(in_array($type, array('qyzfbzf','qywxzf'))){
+            $html = UserCharge::payQychange($amount, $type);//千应支付宝支付
+           
+            if (!$html) {
+                return $this->redirect(['site/wrong']);
+            }
+
+           // echo 'f';
+           // die();
+            return $this->render('qyzf', compact('html'));
+           
+        }elseif(in_array($type, array('wx'))){
+           
+            $html = UserCharge::payQywxchange($amount, $type);//千应微信支付     
+            if (!$html) {
+                return $this->redirect(['site/wrong']);
+            }
+
+            return $this->render('qywxzf', compact('html'));
+           
         }
+
         return;
         switch (post('type', 2)) {
             case UserCharge::CHARGE_TYPE_BANK: //3

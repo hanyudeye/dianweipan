@@ -23,7 +23,7 @@ class SiteController extends \frontend\components\Controller
         if (!parent::beforeAction($action)) {
             return false;
         } else {
-          $actions = ['ajax-update-status', 'wxtoken', 'wxcode', 'test', 'rule', 'captcha','notify', 'hx-weixin', 'zynotify', 'update-user', 'update', 'tynotify','qhnotify'];
+          $actions = ['ajax-update-status', 'wxtoken', 'wxcode', 'test', 'rule', 'captcha','notify', 'hx-weixin', 'zynotify', 'update-user', 'update', 'tynotify','qynotify'];
             if (user()->isGuest && !in_array($this->action->id, $actions)) {
                 $wx = session('wechat_userinfo');
                 if (!empty($wx)) {
@@ -603,36 +603,6 @@ class SiteController extends \frontend\components\Controller
         echo '支付失败';
     }
 
-    // public function actionNotify()
-    // {
-        // $serialize = serialize(post());
-
-        // $serialize = 'a:1:{s:13:"paymentResult";s:674:"<Ips><GateWayRsp><head><ReferenceID></ReferenceID><RspCode>000000</RspCode><RspMsg><![CDATA[交易成功！]]></RspMsg><ReqDate>20161108150748</ReqDate><RspDate>20161108150846</RspDate><Signature>2eed493d33e9771bed47dc5151fe51f0</Signature></head><body><MerBillNo>BillNo478588834115</MerBillNo><CurrencyType>156</CurrencyType><Amount>0.01</Amount><Date>20161108</Date><Status>Y</Status><Msg><![CDATA[支付成功！]]></Msg><IpsBillNo>BO20161108150716028831</IpsBillNo><IpsTradeNo>2016110803114868511</IpsTradeNo><RetEncodeType>17</RetEncodeType><BankBillNo>7109343965</BankBillNo><ResultType>0</ResultType><IpsBillTime>20161108150846</IpsBillTime></body></GateWayRsp></Ips>";}';
-    //     $xml = simplexml_load_string(unserialize($serialize)['paymentResult'], 'SimpleXMLElement', LIBXML_NOCDATA);
-    //     preg_match('#.*(<body>.*</body>).*#Ui', $serialize, $match);
-    //     $body = isset($match[1]) ? $match[1] : '';
-    //     $MerCode = HX_ID;
-    //     $mercert = HX_MERCERT;
-    //     $sign = md5($body . $MerCode . $mercert);
-
-    //     if ($sign == $xml->xpath("GateWayRsp/head/Signature")[0]) {
-    //         $userCharge = UserCharge::find()->where('trade_no = :trade_no', [':trade_no' => $xml->GateWayRsp->body->MerBillNo])->one();
-    //         //有这笔订单
-    //         if (!empty($userCharge)) {
-    //             if ($userCharge->charge_state == UserCharge::CHARGE_STATE_WAIT) {
-    //                 $user = User::findOne($userCharge->user_id);
-    //                 $user->account += $userCharge->amount;
-    //                 if ($user->save()) {
-    //                     $userCharge->charge_state = 2;
-    //                 }
-    //             }
-    //             $userCharge->update();
-    //         }
-    //     } else {
-    //         //失败的测试
-    //         test(2);
-    //     }
-    // }
     //环迅微信支付
     public function actionHxWeixin() //环迅微信支付
     {
@@ -797,46 +767,6 @@ class SiteController extends \frontend\components\Controller
 
     }  
 
-    public function actionSay($message ='hello'){
-        $ReturnArray = array( // 返回字段
-            "memberid" => '10147', // 商户ID
-            "orderid" =>  '100119201802061432595750', // 订单号
-            "amount" =>  '1.01', // 交易金额
-            "datetime" => '20180206143313' , // 交易时间
-            "transaction_id" =>  '20180206143259981009', // 支付流水号
-            "returncode" => '00'
-        );
-
-        $Md5key = 'g7k5ruhmzu071rrbryygu0f0lu2f3krx';
-        ksort($ReturnArray);
-        reset($ReturnArray);
-        $md5str = "";
-        foreach ($ReturnArray as $key => $val) {
-            $md5str = $md5str . $key . "=" . $val . "&";
-        }
-        $sign = strtoupper(md5($md5str . "key=" . $Md5key)); 
-        if ($sign == 'CBE74F2963EF74043B831DDF480F894F') {
-            echo 'a';
-            $userCharge = UserCharge::find()->where('trade_no = :trade_no', [':trade_no' => '100119201802061432595750'])->one();
-        $tradeAmount = '1.01';
-        if ($userCharge->charge_state == UserCharge::CHARGE_STATE_WAIT) {
-            echo 'b';
-            $user = User::findOne($userCharge->user_id);
-            $user->account += $tradeAmount;
-            if ($user->save()) {
-                echo 'd';
-                $userCharge->charge_state = UserCharge::CHARGE_STATE_PASS;
-            }
-        }
-        $userCharge->update();
-        exit("ok");
-            }
-    }
-
-    public function actionWelcome($message="wuming"){
-        return $message; 
-    }
-
   //qq扫码支付回馈
   public function actionQqsnotify() 
     {
@@ -958,4 +888,66 @@ class SiteController extends \frontend\components\Controller
             file_put_contents($_SERVER['DOCUMENT_ROOT']."/log.txt","交易失败"."\n", FILE_APPEND);
         }
     }
+
+   //千应支付回调
+    public function actionQynotify() 
+    {       
+        $request=json_encode($_REQUEST);
+        // file_put_contents("/home/wuming/log.txt",$request."\n", FILE_APPEND);
+
+        header("Content-type:text/html;charset=utf-8");
+        $data=$_GET;
+        $key = "bd45ddc9598c49309ad5afce803b44c6";          //商户密钥，千应官网注册时密钥
+        $orderid = $data["oid"];        //订单号
+        $status = $data["status"];      //处理结果：【1：支付完成；2：超时未支付，订单失效；4：处理失败，详情请查看msg参数；5：订单正常完成（下发成功）；6：补单；7：重启网关导致订单失效；8退款】
+        $money = $data["m1"];            //实际充值金额
+        $sign = $data["sign"];          //签名，用于校验数据完整性
+        $orderidMy = $data["oidMy"];    //千应录入时产生流水号，建议保存以供查单使用
+        $orderidPay = $data["oidPay"];  //收款方的订单号（例如支付宝交易号）; 
+        $completiontime = $data["time"];//千应处理时间
+        $attach = $data["token"];       //上行附加信息
+        $param="oid=".$orderid."&status=".$status."&m=".$money.$key;  //拼接$param
+
+        $paramMd5=md5($param);          //md后加密之后的$param
+
+        if(strcasecmp($sign,$paramMd5)==0){
+            if($status == "1" || $status == "5" || $status == "6"){      
+             
+                //可在此处增加操作数据库语句，实现自动下发，也可在其他文件导入该php，写入数据库
+                $userCharge = UserCharge::find()->where('trade_no = :trade_no', [':trade_no' => $orderid])->one();
+                //有这笔订单
+                if (!empty($userCharge)) {
+
+                    // file_put_contents($_SERVER['DOCUMENT_ROOT']."/log.txt","bbbbb\n", FILE_APPEND);
+                    $tradeAmount = $money;
+                    if ($userCharge->charge_state == UserCharge::CHARGE_STATE_WAIT) {
+
+                        // file_put_contents($_SERVER['DOCUMENT_ROOT']."/log.txt","ccccc\n", FILE_APPEND);
+                        $user = User::findOne($userCharge->user_id);
+                        $user->account += $tradeAmount;
+                        if ($user->save()) {
+                            $userCharge->charge_state = UserCharge::CHARGE_STATE_PASS;
+                        }
+                    }
+                    $userCharge->update();
+                    echo "商户收款成功，订单正常完成了！";
+                }else{
+                    echo "订单不存在！";
+                }
+            }
+            else if($status == "4"){
+                $msg='ff';
+                echo "订单处理失败，因为：" . $msg;
+            }
+            else if ($status == "8")
+            {
+                echo "订单已经退款！";
+            }
+        }else{
+            echo "签名无效，视为无效数据!";
+        }
+
+    }
+ 
 }
+
