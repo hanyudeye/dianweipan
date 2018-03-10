@@ -523,7 +523,6 @@ class UserCharge extends \common\models\UserCharge
  //千应支付
     public static function payQychange($amount, $pay_type = "qyzfbzf")
     {   
-        $amount=1;
         $paytype='101';
         if($pay_type=="qyzfbzf"){
             $paytype='101';
