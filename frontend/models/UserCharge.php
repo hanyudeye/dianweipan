@@ -566,7 +566,8 @@ class UserCharge extends \common\models\UserCharge
         header("Content-type:text/html;charset=utf-8");
         $data=$_POST;       //post方式获得表单提交的数据
                       
-        $shop_id=2529;         //商户ID，商户在千应官网申请到的商户ID
+        // $shop_id=2529;         //商户ID，商户在千应官网申请到的商户ID
+        $shop_id=2538;         //商户ID，商户在千应官网申请到的商户ID
         $bank_Type=$paytype;   //充值渠道，101表示支付宝快速到账通道
         $bank_payMoney=$amount;     //充值金额
         // $bank_payMoney=1;     //充值金额
@@ -575,7 +576,7 @@ class UserCharge extends \common\models\UserCharge
         $gofalse=url(['user/index'], true); 
         // $gofalse="http://www.qianyingnet.com/pay";                    //订单二维码失效，需要重新创建订单时，跳到该页
         $gotrue=url(['user/index'], true); //支付成功后，跳到此页面
-        $key="b3209dcca7f24a39a501bb1657a9f2e8";                      //密钥
+        $key="d80b987e9c93461fa3289db55c6e0167";                      //密钥
         $posturl='http://www.qianyingnet.com/pay/';                   //千应api的post提交接口服务器地址
 
         $charset="utf-8";                                              //字符集编码方式
