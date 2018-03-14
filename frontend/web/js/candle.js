@@ -469,11 +469,11 @@ var groupingUnits = [[
             },
             rangeSelector: {
                 //这段没用
-                selected: 1,
+                selected: 0,
 
                 buttons: [{
                     type: 'minute',
-                    count: 20,
+                    count: 15,
                 }, {
                     // type: 'hour',
                     type: 'day',

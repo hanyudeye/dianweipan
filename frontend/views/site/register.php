@@ -62,9 +62,10 @@
             </div>
         </div>
         <div class="reg_btn">
-            <span class="pull-right" style="margin-bottom:10px;color:#fff;">
-                <a href="<?= url('site/login') ?>">返回登录</a>
-            </span>
+<!--            <span class="pull-right" style="margin-bottom:10px;color:#fff;">-->
+<!--                <a href="--><?//= url('site/login') ?><!--">返回登录</a>-->
+<!--            </span>-->
+            <a href="<?= url('site/login') ?>" class="submitBack">返回登录</a>
             <button id="submitBtn">完成注册</button>
         </div>
     </div>

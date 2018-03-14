@@ -286,7 +286,7 @@ background-image: -webkit-gradient(linear,left bottom,left top,color-start(0, #0
     }
     .footer-nav>li{
         float: left;
-        width:calc(100% / 3);
+        width:calc(100% / 2);
         height: 50px;
     }
     .footer-nav>li a{
