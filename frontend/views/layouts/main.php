@@ -24,9 +24,6 @@
 
     <?= $content ?>
 <ul class="clear-fl footer-nav">
-    <li class="<?= $this->context->id=='site'&&$this->context->module->requestedRoute!='site/index'?'active':'' ?>"><a href="<?= url('site/shop') ?>">
-        商城
-    </a></li>
     <li class="<?= $this->context->module->requestedRoute=='site/index'?'active':'' ?>"><a href="<?= url('site/index') ?>">
         交易
     </a></li>
