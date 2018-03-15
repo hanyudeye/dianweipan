@@ -1,5 +1,5 @@
 <?php common\components\View::regCss('geren.css') ?>
-
+<a href="javascript:history.back(-1);" style="font-size: 16px;color:#ffffff;display: block;width: 100%;height: 40px;line-height: 40px;background-color: #d9333f;padding-left: 20px">返回</a>
 <!--头部导航-->
 <div class="forget">
     <div class="center-list-wrap">

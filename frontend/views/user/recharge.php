@@ -20,7 +20,7 @@
 	</div>
 
 <div class="container " style="padding:0;">
-      <a href="javascript:history.back(-1);" style="color:rgba(76, 76, 76, 0.66);"><img src="/images/jiantou.png" style="width: 20px;" alt="">返回</a>
+      <a href="javascript:history.back(-1);" style="font-size: 16px;color:#ffffff;display: block;width: 100%;height: 40px;line-height: 40px;background-color: #d9333f;padding-left: 20px">返回</a>
     <p class="selecthe">选择充值面额（元）</p>
     <?php $form = self::beginForm(['showLabel' => false, 'action' => url(['user/pay']), 'id' => 'payform']) ?>
     <div class="boxflex1 paystyle" style="padding: 10px 15px 0;">
