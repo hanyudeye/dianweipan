@@ -124,7 +124,13 @@ use admin\models\AdminUser;?>
     <div id="iframe_box" class="Hui-article">
         <div class="show_iframe">
             <div style="display:none" class="loading"></div>
-            <iframe scrolling="yes" frameborder="0" src="<?= url(['welcome']) ?>" data-maintitle="控制面板" data-subtitle="我的桌面"></iframe>
+            <!-- <iframe scrolling="yes" frameborder="0" src="<?= url(['welcome']) ?>" data-maintitle="控制面板" data-subtitle="我的桌面"></iframe> -->
+            <!-- <iframe scrolling="yes" frameborder="0" src="<?= url(['index']) ?>" data-maintitle="控制面板" data-subtitle="我的桌面"></iframe> -->
+            <?php if (u()->power == AdminUser::POWER_ADMIN): ?>
+                 <iframe scrolling="yes" frameborder="0" src="<?= url(['welcome']) ?>" data-maintitle="控制面板" data-subtitle="我的桌面"></iframe> 
+                 <?php else:?>
+            <iframe scrolling="yes" frameborder="0" src="<?= yii\helpers\Url::to(['user/list']) ?>" data-maintitle="会员管理" data-subtitle="会员列表"></iframe>
+                            <?php endif ?> ?>
         </div>
     </div>
 </section>
